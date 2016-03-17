@@ -1,12 +1,9 @@
 package project4.skplanet.com.carowner;
 
-import android.app.ActionBar;
-import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
@@ -14,27 +11,23 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.skp.Tmap.TMapPoint;
 
 /**
  * Created by a1000990 on 16. 3. 14..
  */
-public class NavigationDrawerActivity extends AppCompatActivity {
+public class NavigationDrawerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
+    private NavigationView mNavigationView;
 
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
@@ -51,14 +44,10 @@ public class NavigationDrawerActivity extends AppCompatActivity {
         mTitle = mDrawerTitle = getTitle();
         mDrawerItems = getResources().getStringArray(R.array.drawer_array);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+        mNavigationView = (NavigationView) findViewById(R.id.navigation_view);
 
         // set a custom shadow that overlays the main content when the drawer opens
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-        // set up the drawer's list view with items and click listener
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-                R.layout.drawer_list_item, mDrawerItems));
-        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
         // enable ActionBar app icon to behave as action to toggle nav drawer
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -83,6 +72,7 @@ public class NavigationDrawerActivity extends AppCompatActivity {
             }
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
+        mNavigationView.setNavigationItemSelectedListener(this);
 
         Fragment fragment = new TMapFragment();
         fragment.setArguments(new Bundle());
@@ -90,31 +80,29 @@ public class NavigationDrawerActivity extends AppCompatActivity {
                 .add(R.id.content_frame, fragment, TMapFragment.FRAGMENT_TAG).commit();
     }
 
-    /* The click listener for ListView in the navigation drawer */
-    private class DrawerItemClickListener implements ListView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            TMapFragment tmapFragment = (TMapFragment)fragmentManager.findFragmentByTag(TMapFragment.FRAGMENT_TAG);
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        TMapFragment tmapFragment = (TMapFragment)fragmentManager.findFragmentByTag(TMapFragment.FRAGMENT_TAG);
 
-            if(mDrawerItems[position].equals(getResources().getString(R.string.random))) {
+        switch (item.getItemId()) {
+            case R.id.nav_random:
                 TMapPoint tmapPoint = tmapFragment.randomTMapPoint();
                 tmapFragment.drawLine(tmapPoint);
-
-            } else if(mDrawerItems[position].equals(getResources().getString(R.string.daegu))) {
-                TMapPoint tmapPoint = new TMapPoint(35.871436, 128.599251);
+                break;
+            case R.id.nav_daegu:
+                tmapPoint = new TMapPoint(35.871436, 128.599251);
                 tmapFragment.drawLine(tmapPoint);
-
-            } else if(mDrawerItems[position].equals(getResources().getString(R.string.busan))) {
-                TMapPoint tmapPoint = new TMapPoint(35.179554, 129.0734475);
+                break;
+            case R.id.nav_busan:
+                tmapPoint = new TMapPoint(35.179554, 129.0734475);
                 tmapFragment.drawLine(tmapPoint);
-            }
-
-            // update selected item and title, then close the drawer
-            mDrawerList.setItemChecked(position, true);
-            setTitle(mDrawerItems[position]);
-            mDrawerLayout.closeDrawer(mDrawerList);
+                break;
         }
+
+//            setTitle(mDrawerItems[position]);
+        mDrawerLayout.closeDrawer(GravityCompat.START);
+        return false;
     }
 
     @Override
@@ -132,6 +120,8 @@ public class NavigationDrawerActivity extends AppCompatActivity {
         super.onPostCreate(savedInstanceState);
         // Sync the toggle state after onRestoreInstanceState has occurred.
         mDrawerToggle.syncState();
+        mNavigationView.setCheckedItem(R.id.nav_random);
+        mNavigationView.getMenu().performIdentifierAction(R.id.nav_random, 0);
     }
 
     @Override

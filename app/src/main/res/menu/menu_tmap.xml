@@ -6,17 +6,17 @@
     <item
         android:id="@+id/action_busan"
         android:orderInCategory="100"
-        android:title="Busan"
+        android:title="@string/busan"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_daegu"
         android:orderInCategory="100"
-        android:title="Daegu"
+        android:title="@string/daegu"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_random"
         android:orderInCategory="100"
-        android:title="random"
+        android:title="@string/random"
         app:showAsAction="never" />
 
 </menu>

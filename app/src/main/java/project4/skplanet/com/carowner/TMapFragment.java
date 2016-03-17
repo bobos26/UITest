@@ -4,25 +4,28 @@ package project4.skplanet.com.carowner;
  * Created by a1000990 on 16. 3. 15..
  */
 
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.text.TextUtils;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import com.skp.Tmap.TMapData;
-import com.skp.Tmap.TMapInfo;
-import com.skp.Tmap.TMapPoint;
-import com.skp.Tmap.TMapPolyLine;
-import com.skp.Tmap.TMapView;
+import java.util.ArrayList;
 
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import java.util.ArrayList;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.text.TextUtils;
+import android.text.format.DateUtils;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+
+import com.skp.Tmap.TMapData;
+import com.skp.Tmap.TMapInfo;
+import com.skp.Tmap.TMapPoint;
+import com.skp.Tmap.TMapPolyLine;
+import com.skp.Tmap.TMapView;
 
 import hugo.weaving.DebugLog;
 
@@ -36,6 +39,7 @@ public class TMapFragment extends Fragment {
     private static final String TAG_DISTANCE = "tmap:totalDistance";
     private static final String TAG_TIME = "tmap:totalTime";
     TMapView tmapview;
+    Button mDistanceText, mTimeText;
 
     public TMapFragment() {
         // Empty constructor required for fragment subclasses
@@ -54,6 +58,8 @@ public class TMapFragment extends Fragment {
     public void onActivityCreated(Bundle bundle) {
         super.onActivityCreated(bundle);
 
+        mTimeText = (Button) getActivity().findViewById(R.id.text_time);
+        mDistanceText = (Button) getActivity().findViewById(R.id.text_distance);
         tmapview = (TMapView) getActivity().findViewById(R.id.tmapview);
         tmapview.setSKPMapApiKey("e4bfc3be-3f9a-3bd5-98c4-4043d8b214f4");
         tmapview.setSKPMapBizappId(null);
@@ -94,8 +100,8 @@ public class TMapFragment extends Fragment {
                             public void run() {
                                 tmapview.setZoomLevel(tmapInfo.getTMapZoomLevel());
                                 tmapview.setCenterPoint(centerPoint.getLongitude(), centerPoint.getLatitude(), true);
-//                                    distanceText.setText("이동거리: " + distance / 1000 + " KM");
-//                                    timeText.setText("이동시간: " + DateUtils.formatElapsedTime(sec));
+                                mDistanceText.setText("이동거리: " + distance / 1000 + " KM");
+                                mTimeText.setText("이동시간: " + DateUtils.formatElapsedTime(sec));
                             }
                         });
                     }
