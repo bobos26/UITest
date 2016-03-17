@@ -1,0 +1,36 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="project4.skplanet.com.carowner.MainActivity">
+    <item
+        android:id="@+id/action_tmap"
+        android:orderInCategory="100"
+        android:title="TMap"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_list"
+        android:orderInCategory="100"
+        android:title="ListView"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_recycler"
+        android:orderInCategory="100"
+        android:title="RecyclerView"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_initialize"
+        android:orderInCategory="100"
+        android:title="initiaize"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_request_token"
+        android:orderInCategory="100"
+        android:title="requestToken"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_nearest"
+        android:orderInCategory="100"
+        android:title="nearest"
+        app:showAsAction="never" />
+
+</menu>

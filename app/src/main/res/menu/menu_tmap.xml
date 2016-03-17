@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".NavigationDrawerActivity">
+    <item
+        android:id="@+id/action_busan"
+        android:orderInCategory="100"
+        android:title="Busan"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_daegu"
+        android:orderInCategory="100"
+        android:title="Daegu"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_random"
+        android:orderInCategory="100"
+        android:title="random"
+        app:showAsAction="never" />
+
+</menu>
