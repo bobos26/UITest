@@ -23,18 +23,18 @@ import project4.skplanet.com.carowner.model.BLERegion;
  */
 public class RecyclerActivity extends Activity {
     private static final String TAG = RecyclerActivity.class.getSimpleName();
-    RecyclerAdapter adapter;
+    RecyclerCursorAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.list_content);
+        setContentView(R.layout.recycler_fragment);
 
         RecyclerView rvContacts = (RecyclerView) findViewById(R.id.rvContacts);
 
         // Initialize contacts
         // Create adapter passing in the sample user data
-        adapter = new RecyclerAdapter(this, null);
+        adapter = new RecyclerCursorAdapter(this, null);
         // Attach the adapter to the recyclerview to populate items
         rvContacts.setAdapter(adapter);
         // Set layout manager to position the items
@@ -66,9 +66,9 @@ public class RecyclerActivity extends Activity {
         }
     };
 
-    public class RecyclerAdapter extends CursorRecyclerViewAdapter<RecyclerAdapter.ViewHolder> {
+    public class RecyclerCursorAdapter extends CursorRecyclerViewAdapter<RecyclerCursorAdapter.ViewHolder> {
 
-        public RecyclerAdapter(Context context, Cursor cursor) {
+        public RecyclerCursorAdapter(Context context, Cursor cursor) {
             super(context, cursor);
         }
 

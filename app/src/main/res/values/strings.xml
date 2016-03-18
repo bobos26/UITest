@@ -8,6 +8,8 @@
     <string name="random">Random</string>
     <string name="daegu">대구</string>
     <string name="busan">부산</string>
+    <string name="recycler">RecyclerView</string>
+    <string name="tmap">tmap</string>
 
 </resources>
 

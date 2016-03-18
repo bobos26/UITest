@@ -1,4 +1,4 @@
-include ':app', 
+include ':app',
         ':RecyclerView',
         ':externals:volley',
         ':externals:tmap',

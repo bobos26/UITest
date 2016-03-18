@@ -98,6 +98,18 @@ public class NavigationDrawerActivity extends AppCompatActivity implements Navig
                 tmapPoint = new TMapPoint(35.179554, 129.0734475);
                 tmapFragment.drawLine(tmapPoint);
                 break;
+            case R.id.nav_tmap:
+                Fragment fragment = new TMapFragment();
+                fragment.setArguments(new Bundle());
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.content_frame, fragment, TMapFragment.FRAGMENT_TAG).commit();
+                break;
+            case R.id.nav_recyceler:
+                fragment = new RecyclerViewFragment();
+                fragment.setArguments(new Bundle());
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.content_frame, fragment).commit();
+                break;
         }
 
 //            setTitle(mDrawerItems[position]);
@@ -120,8 +132,8 @@ public class NavigationDrawerActivity extends AppCompatActivity implements Navig
         super.onPostCreate(savedInstanceState);
         // Sync the toggle state after onRestoreInstanceState has occurred.
         mDrawerToggle.syncState();
-        mNavigationView.setCheckedItem(R.id.nav_random);
-        mNavigationView.getMenu().performIdentifierAction(R.id.nav_random, 0);
+//        mNavigationView.setCheckedItem(R.id.nav_random);
+//        mNavigationView.getMenu().performIdentifierAction(R.id.nav_random, 0);
     }
 
     @Override

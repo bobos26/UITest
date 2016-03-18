@@ -6,8 +6,7 @@
             android:id="@+id/nav_random"
             android:icon="@android:drawable/ic_dialog_alert"
             android:title="@string/random"
-            android:checked="true"
-            />
+            android:checked="true" />
         <item
             android:id="@+id/nav_daegu"
             android:icon="@android:drawable/ic_dialog_email"
@@ -16,6 +15,14 @@
             android:id="@+id/nav_busan"
             android:icon="@android:drawable/ic_dialog_map"
             android:title="@string/busan" />
+        <item
+            android:id="@+id/nav_recyceler"
+            android:icon="@android:drawable/ic_btn_speak_now"
+            android:title="@string/recycler"/>
+        <item
+            android:id="@+id/nav_tmap"
+            android:icon="@android:drawable/ic_dialog_map"
+            android:title="@string/tmap" />
     </group>
 
 </menu>
