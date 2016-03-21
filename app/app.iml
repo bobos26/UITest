@@ -101,6 +101,7 @@
     <orderEntry type="library" exported="" name="hugo-runtime-1.2.1" level="project" />
     <orderEntry type="library" exported="" name="hugo-annotations-1.2.1" level="project" />
     <orderEntry type="library" exported="" name="commons-cli-1.2" level="project" />
+    <orderEntry type="library" exported="" name="MPAndroidChart-v2.2.3" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="multidex-instrumentation-1.0.1" level="project" />
     <orderEntry type="module" module-name="tmap" exported="" />
     <orderEntry type="module" module-name="volley" exported="" />

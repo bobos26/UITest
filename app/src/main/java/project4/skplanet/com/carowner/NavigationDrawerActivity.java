@@ -13,11 +13,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.skp.Tmap.TMapPoint;
+
+import project4.skplanet.com.carowner.chart.LineChartFragment;
+import project4.skplanet.com.carowner.chart.PieChartFragment;
 
 /**
  * Created by a1000990 on 16. 3. 14..
@@ -87,14 +88,23 @@ public class NavigationDrawerActivity extends AppCompatActivity implements Navig
 
         switch (item.getItemId()) {
             case R.id.nav_random:
+                if (tmapFragment == null) {
+                    break;
+                }
                 TMapPoint tmapPoint = tmapFragment.randomTMapPoint();
                 tmapFragment.drawLine(tmapPoint);
                 break;
             case R.id.nav_daegu:
+                if (tmapFragment == null) {
+                    break;
+                }
                 tmapPoint = new TMapPoint(35.871436, 128.599251);
                 tmapFragment.drawLine(tmapPoint);
                 break;
             case R.id.nav_busan:
+                if (tmapFragment == null) {
+                    break;
+                }
                 tmapPoint = new TMapPoint(35.179554, 129.0734475);
                 tmapFragment.drawLine(tmapPoint);
                 break;
@@ -107,6 +117,16 @@ public class NavigationDrawerActivity extends AppCompatActivity implements Navig
             case R.id.nav_recyceler:
                 fragment = new RecyclerViewFragment();
                 fragment.setArguments(new Bundle());
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.content_frame, fragment).commit();
+                break;
+            case R.id.nav_line_chart:
+                fragment = LineChartFragment.newInstance(null, null);
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.content_frame, fragment).commit();
+                break;
+            case R.id.nav_pie_chart:
+                fragment = PieChartFragment.newInstance(null, null);
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.content_frame, fragment).commit();
                 break;

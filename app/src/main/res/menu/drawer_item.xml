@@ -23,6 +23,14 @@
             android:id="@+id/nav_tmap"
             android:icon="@android:drawable/ic_dialog_map"
             android:title="@string/tmap" />
+        <item
+            android:id="@+id/nav_line_chart"
+            android:icon="@android:drawable/ic_dialog_info"
+            android:title="@string/line_chart" />
+        <item
+            android:id="@+id/nav_pie_chart"
+            android:icon="@android:drawable/ic_dialog_info"
+            android:title="@string/pie_chart" />
     </group>
 
 </menu>
