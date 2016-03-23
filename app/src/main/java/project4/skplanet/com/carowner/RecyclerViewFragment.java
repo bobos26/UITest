@@ -46,10 +46,10 @@ public class RecyclerViewFragment extends Fragment {
 		// Set layout manager to position the items
 		rvContacts.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-		getLoaderManager().initLoader(0, new Bundle(), contactLoader);
+		getLoaderManager().initLoader(0, new Bundle(), mLoaderCallback);
 	}
 
-	private LoaderManager.LoaderCallbacks<Cursor> contactLoader = new LoaderManager.LoaderCallbacks<Cursor>() {
+	private LoaderManager.LoaderCallbacks<Cursor> mLoaderCallback = new LoaderManager.LoaderCallbacks<Cursor>() {
 
 		@Override
 		public Loader<Cursor> onCreateLoader(int id, Bundle args) {
