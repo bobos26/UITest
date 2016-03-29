@@ -1,13 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
+<android.support.v4.widget.DrawerLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:context="project4.skplanet.com.carowner.MainActivity">
+    tools:context=".Main.MainActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?android:attr/actionBarSize"
+        android:fitsSystemWindows="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Major"
+            android:id="@+id/major_tv"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="34dp"
+            android:layout_marginStart="34dp"
+            android:layout_marginTop="26dp" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="numberSigned"
+            android:ems="10"
+            android:id="@+id/major_edit"
+            android:layout_alignTop="@+id/major_tv"
+            android:layout_toRightOf="@+id/major_tv"
+            android:layout_toEndOf="@+id/major_tv"
+            android:layout_marginLeft="33dp"
+            android:layout_marginStart="33dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Minor"
+            android:id="@+id/minor_tv"
+            android:layout_below="@+id/major_edit"
+            android:layout_alignLeft="@+id/major_tv"
+            android:layout_alignStart="@+id/major_tv"
+            android:layout_marginTop="28dp" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="numberSigned"
+            android:ems="10"
+            android:id="@+id/minor_edit"
+            android:layout_alignTop="@+id/minor_tv"
+            android:layout_alignLeft="@+id/major_edit"
+            android:layout_alignStart="@+id/major_edit" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="MID"
+            android:id="@+id/mid_tv"
+            android:layout_below="@+id/minor_edit"
+            android:layout_alignLeft="@+id/minor_tv"
+            android:layout_alignStart="@+id/minor_tv"
+            android:layout_marginTop="30dp" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/mid_edit"
+            android:layout_alignTop="@+id/mid_tv"
+            android:layout_alignLeft="@+id/minor_edit"
+            android:layout_alignStart="@+id/minor_edit" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save"
+            android:id="@+id/save_button"
+            android:layout_marginTop="24dp"
+            android:layout_below="@+id/mid_edit"
+            android:layout_alignLeft="@+id/mid_tv"
+            android:layout_alignStart="@+id/mid_tv"
+            android:onClick="onSaveClick" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/save_button">
+        </android.support.v7.widget.RecyclerView>
+
+    </RelativeLayout>
 
     <include layout="@layout/app_bar_main" />
 
-</android.support.design.widget.CoordinatorLayout>
+</android.support.v4.widget.DrawerLayout>

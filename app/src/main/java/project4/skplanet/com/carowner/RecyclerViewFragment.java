@@ -53,7 +53,8 @@ public class RecyclerViewFragment extends Fragment {
 
 		@Override
 		public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-			return new CursorLoader(getActivity(), ContentProvider.createUri(BLERegion.class, null), null, // projection
+			return new CursorLoader(getActivity(), ContentProvider.createUri(BLERegion.class, null),
+					null, // projection
 					null, // selection
 					null, // selectionArgs
 					null);// sortOrder

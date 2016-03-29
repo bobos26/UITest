@@ -2,4 +2,6 @@ include ':app',
         ':RecyclerView',
         ':externals:volley',
         ':externals:tmap',
-        ':apiDemos', ':cleanSampleApp'
+        ':apiDemos',
+        ':cleanSampleApp',
+        ':archi'
