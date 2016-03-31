@@ -1,4 +1,4 @@
-package project4.skplanet.com.carowner;
+package project4.skplanet.com.carowner.common;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -6,9 +6,6 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.activeandroid.ActiveAndroid;
-import com.activeandroid.query.Select;
-import com.activeandroid.query.Update;
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -17,10 +14,6 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import hugo.weaving.DebugLog;
 import project4.skplanet.com.carowner.model.BLERegion;

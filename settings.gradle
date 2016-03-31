@@ -4,4 +4,4 @@ include ':app',
         ':externals:tmap',
         ':apiDemos',
         ':cleanSampleApp',
-        ':archi'
+        ':archi', ':carOwner', ':externals:crypto'

@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Car Owner</string>
+    <string name="action_database">Database</string>
+    <string name="action_preference">Preference</string>
+    <string name="action_volley">volley</string>
+    <string name="action_gcm">Register GCM</string>
+    <string name="action_tts">Text-To-Speech</string>
+    <string name="title_activity_register">RegisterActivity</string>
+    <string name="action_settings">Settings</string>
+</resources>

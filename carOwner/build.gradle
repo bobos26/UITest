@@ -1,0 +1,76 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+
+    dependencies {
+        classpath 'com.jakewharton.hugo:hugo-plugin:1.2.1'
+    }
+}
+
+apply plugin: 'com.android.application'
+apply plugin: 'com.jakewharton.hugo'
+apply plugin: 'com.google.gms.google-services'
+
+version = '1.0.0-RC1'
+group = 'com.skplanet.vp4.trunk'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+    defaultConfig {
+        applicationId "com.skplanet.trunk.carowner"
+        minSdkVersion 16 // modified
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+    }
+    signingConfigs {
+        release {
+            if (project.hasProperty("ANDROID_RELEASE_STORE_FILE")) {
+                storeFile file(ANDROID_RELEASE_STORE_FILE)
+                storePassword ANDROID_RELEASE_STORE_PASSWORD
+                keyAlias ANDROID_RELEASE_KEY_ALIAS
+                keyPassword ANDROID_RELEASE_KEY_PASSWORD
+            }
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.android.support:design:23.1.1'
+    compile 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
+    compile 'com.google.android.gms:play-services:8.3.0'
+    compile project(':externals:tmap')
+    compile project(':externals:volley')
+    compile project(':externals:crypto')
+    testCompile 'junit:junit:4.12'
+    debugCompile 'com.facebook.stetho:stetho:1.3.0'
+    // Hello Chart
+    compile 'com.github.lecho:hellocharts-android:v1.5.8'
+    compile 'com.jakewharton:butterknife:7.0.1'
+}
+
+// Hello Chart
+repositories {
+    maven {
+        url "https://jitpack.io"
+    }
+}

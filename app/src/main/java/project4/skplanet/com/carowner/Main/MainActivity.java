@@ -28,14 +28,15 @@ import com.facebook.stetho.Stetho;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import project4.skplanet.com.carowner.CursorRecyclerViewAdapter;
+import project4.skplanet.com.carowner.common.CursorRecyclerViewAdapter;
 import project4.skplanet.com.carowner.ListActivity;
 import project4.skplanet.com.carowner.NavigationDrawerActivity;
-import project4.skplanet.com.carowner.NetUtils;
+import project4.skplanet.com.carowner.common.NetUtils;
 import project4.skplanet.com.carowner.R;
 import project4.skplanet.com.carowner.RecyclerActivity;
 import project4.skplanet.com.carowner.model.BLEModel;
 import project4.skplanet.com.carowner.model.BLERegion;
+import project4.skplanet.com.carowner.register.RegisterActivity;
 
 public class MainActivity extends AppCompatActivity implements MainPresenter.IMainView {
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -83,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.IMa
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         // Set layout manager to position the items
-        getSupportLoaderManager().initLoader(0, new Bundle(), contactLoader);
+        getSupportLoaderManager().initLoader(0, new Bundle(), loaderCallbacks);
 
         Stetho.initializeWithDefaults(this);
     }
@@ -103,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.IMa
         mAdapter.notifyDataSetChanged();
     }
 
-    private LoaderManager.LoaderCallbacks<Cursor> contactLoader = new LoaderManager.LoaderCallbacks<Cursor>() {
+    private LoaderManager.LoaderCallbacks<Cursor> loaderCallbacks = new LoaderManager.LoaderCallbacks<Cursor>() {
 
         @Override
         public Loader<Cursor> onCreateLoader(int id, Bundle args) {
@@ -153,16 +154,17 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.IMa
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
+            @Bind(R.id.tv_major)
             TextView tvMajor;
+            @Bind(R.id.tv_minor)
             TextView tvMinor;
+            @Bind(R.id.tv_mid)
             TextView tvMid;
 
             public ViewHolder(View itemView) {
                 super(itemView);
 
-                tvMajor = (TextView) itemView.findViewById(R.id.tv_major);
-                tvMinor = (TextView) itemView.findViewById(R.id.tv_minor);
-                tvMid = (TextView) itemView.findViewById(R.id.tv_mid);
+                ButterKnife.bind(this, itemView);
             }
         }
     }
@@ -185,6 +187,9 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.IMa
             return true;
         } else if (id == R.id.action_recycler) {
             startActivity(new Intent(this, RecyclerActivity.class));
+            return true;
+        } else if (id == R.id.action_register) {
+            startActivity(new Intent(this, RegisterActivity.class));
             return true;
         } else if (id == R.id.action_initialize) {
             NetUtils.initialize(this);

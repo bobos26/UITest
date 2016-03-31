@@ -1,4 +1,4 @@
-package project4.skplanet.com.carowner;
+package project4.skplanet.com.carowner.common;
 
 /*
  * Copyright (C) 2014 skyfish.jy@gmail.com

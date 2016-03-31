@@ -32,5 +32,10 @@
         android:orderInCategory="100"
         android:title="nearest"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_register"
+        android:orderInCategory="100"
+        android:title="register"
+        app:showAsAction="never" />
 
 </menu>

@@ -29,6 +29,7 @@ import com.facebook.stetho.Stetho;
 
 import java.lang.ref.WeakReference;
 
+import project4.skplanet.com.carowner.common.NetUtils;
 import project4.skplanet.com.carowner.model.BLERegion;
 
 public class ListActivity extends Activity {

@@ -1,4 +1,4 @@
-package project4.skplanet.com.carowner;
+package project4.skplanet.com.carowner.common;
 
 /**
  * Created by a1000990 on 16. 2. 23..

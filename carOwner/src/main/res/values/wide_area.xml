@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="wide_lift_area">
+        <item>서울</item>
+        <item>부산</item>
+        <item>인천</item>
+    </string-array>
+
+    <string-array name="local_lift_area">
+        <item>강남구</item>
+        <item>강동구</item>
+        <item>서초구</item>
+    </string-array>
+
+    <string-array name="lift_method">
+        <item>수작업</item>
+        <item>일반</item>
+        <item>크레인</item>
+        <item>컨베인</item>
+        <item>호이스트</item>
+        <item>지게차</item>
+    </string-array>
+    
+    <string-array name="land_method">
+        <item>수작업</item>
+        <item>일반</item>
+        <item>크레인</item>
+        <item>컨베인</item>
+        <item>호이스트</item>
+        <item>지게차</item>
+    </string-array>
+    
+    <string-array name="ton_type">
+        <item>1톤미만</item>
+        <item>1톤</item>
+        <item>1.4톤</item>
+        <item>2.5톤</item>
+    </string-array>
+
+    <string-array name="car_type">
+        <item>카고/윙바디</item>
+        <item>카고</item>
+        <item>윙바디</item>
+        <item>탑</item>
+        <item>추레라</item>
+        <item>다마스</item>
+        <item>라보</item>
+        <item>라보</item>
+        <item>배</item>
+        <item>냉탑</item>
+    </string-array>
+    
+    <string-array name="car_count">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+
+</resources>
+

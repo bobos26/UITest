@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.activeandroid.content.ContentProvider;
 
+import project4.skplanet.com.carowner.common.CursorRecyclerViewAdapter;
 import project4.skplanet.com.carowner.model.BLERegion;
 
 public class RecyclerViewFragment extends Fragment {
