@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/list_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:backgroundTint="@android:color/darker_gray">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="출발지"
+        android:id="@+id/lift_area_text"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="도착지"
+        android:id="@+id/land_area_text"
+        android:layout_alignTop="@+id/lift_area_text"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginEnd="10dp"
+        android:textColor="@android:color/holo_red_light" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="04-08 14:23"
+        android:id="@+id/datetime_text"
+        android:layout_below="@+id/lift_area_text"
+        android:layout_alignLeft="@+id/lift_area_text"
+        android:layout_alignStart="@+id/lift_area_text"
+        android:layout_marginTop="10dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="100,000"
+        android:id="@+id/fee_text"
+        android:layout_alignTop="@+id/datetime_text"
+        android:layout_alignRight="@+id/land_area_text"
+        android:layout_alignEnd="@+id/land_area_text"
+        android:textColor="@android:color/holo_red_light" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="톤수"
+        android:id="@+id/ton_text"
+        android:layout_below="@+id/datetime_text"
+        android:layout_alignLeft="@+id/datetime_text"
+        android:layout_alignStart="@+id/datetime_text"
+        android:layout_marginTop="10dp"
+        android:textColor="@android:color/holo_blue_light" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="차종"
+        android:id="@+id/car_type_text"
+        android:layout_alignTop="@+id/ton_text"
+        android:layout_toRightOf="@+id/lift_area_text"
+        android:layout_toEndOf="@+id/lift_area_text" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="비고"
+        android:id="@+id/description_text"
+        android:layout_alignTop="@+id/car_type_text"
+        android:layout_alignRight="@+id/fee_text"
+        android:layout_alignEnd="@+id/fee_text" />
+
+</RelativeLayout>

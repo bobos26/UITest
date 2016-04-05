@@ -1,16 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="wide_lift_area">
-        <item>서울</item>
-        <item>부산</item>
-        <item>인천</item>
-    </string-array>
-
-    <string-array name="local_lift_area">
-        <item>강남구</item>
-        <item>강동구</item>
-        <item>서초구</item>
-    </string-array>
 
     <string-array name="lift_method">
         <item>수작업</item>

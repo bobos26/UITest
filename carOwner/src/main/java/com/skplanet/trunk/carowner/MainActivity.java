@@ -21,10 +21,11 @@ import com.skplanet.trunk.carowner.common.CommonIntentService;
 import com.skplanet.trunk.carowner.common.Constants;
 import com.skplanet.trunk.carowner.common.LLog;
 import com.skplanet.trunk.carowner.common.Volleyer;
+import com.skplanet.trunk.carowner.goodsInfo.GoodsInfoActivity;
 import com.skplanet.trunk.carowner.model.BLERegion;
 import com.skplanet.trunk.carowner.model.JsonObjectRequestTrunk;
 import com.skplanet.trunk.carowner.model.SettingData;
-import com.skplanet.trunk.carowner.register.RegisterActivity;
+import com.skplanet.trunk.carowner.goodsRegister.RegisterActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -219,6 +220,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.goods_info_btn:
+                startActivity(new Intent(this, GoodsInfoActivity.class));
                 break;
             case R.id.goods_register_btn:
                 startActivity(new Intent(this, RegisterActivity.class));

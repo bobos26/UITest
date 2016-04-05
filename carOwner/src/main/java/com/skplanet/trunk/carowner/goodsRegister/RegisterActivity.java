@@ -1,16 +1,20 @@
-package com.skplanet.trunk.carowner.register;
+package com.skplanet.trunk.carowner.goodsRegister;
 
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.skplanet.trunk.carowner.R;
+import com.skplanet.trunk.carowner.common.MainThreadImpl;
+import com.skplanet.trunk.carowner.common.ThreadExecutor;
+import com.skplanet.trunk.carowner.model.GoodsModel;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -49,6 +53,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterPrese
     String[] mToneTypes, mCarTypes, mCarCounts;
 
     RegisterPresenter mPresenter;
+    ArrayAdapter<String> mWideAreaAdapter, mLocalAreaAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,11 +63,16 @@ public class RegisterActivity extends AppCompatActivity implements RegisterPrese
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mPresenter = new RegisterPresenter(this, new GoodsModel());
+        mWideAreaAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item);
+        mLocalAreaAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item);
+        mWideAreaSpn.setAdapter(mWideAreaAdapter);
+        mLocalAreaSpn.setAdapter(mLocalAreaAdapter);
+
+        mPresenter = new RegisterPresenter(MainThreadImpl.getInstance(), this);
 
         final Resources resources = getResources();
-        mWideLiftAreas = resources.getStringArray(R.array.wide_lift_area);
-        mLocalLiftAreas = resources.getStringArray(R.array.local_lift_area);
+        mLocalLiftAreas = new String[]{};
+        mWideLiftAreas = mPresenter.getSi();
         mLiftMethods = resources.getStringArray(R.array.lift_method);
         mLandMethods = resources.getStringArray(R.array.land_method);
         mToneTypes = resources.getStringArray(R.array.ton_type);
@@ -73,6 +83,8 @@ public class RegisterActivity extends AppCompatActivity implements RegisterPrese
         mLocalAreaSpn.setOnItemSelectedListener(this);
         mLiftMethodSpn.setOnItemSelectedListener(this);
         mLandMethodSpn.setOnItemSelectedListener(this);
+
+        mWideAreaAdapter.addAll(mWideLiftAreas);
     }
 
     @DebugLog
@@ -80,11 +92,13 @@ public class RegisterActivity extends AppCompatActivity implements RegisterPrese
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         switch(parent.getId()) {
             case R.id.wide_lift_area_spinner:
-                // TODO  mWideLiftSpn.getSelectedItemPosition()을 쓰면 되니, 여기서 String을 구할필요가 없다
+                String si = mWideLiftAreas[mWideAreaSpn.getSelectedItemPosition()];
+                mPresenter.getGu(si);
                 break;
             case R.id.local_lift_area_spinner:
                 break;
             case R.id.lift_method_spinner:
+                // TODO mWideLiftSpn.getSelectedItemPosition()을 쓰면 되니, 여기서 String을 구할필요가 없다
                 break;
             case R.id.land_method_spinner:
                 break;
@@ -103,6 +117,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterPrese
 
     }
 
+    // TODO Button의 click을 어떤 방식으로 할것 인가?
     @DebugLog
     public void onSaveClicked(View view) {
         String wideLiftArea = mWideLiftAreas[mWideAreaSpn.getSelectedItemPosition()];
@@ -130,6 +145,14 @@ public class RegisterActivity extends AppCompatActivity implements RegisterPrese
     @DebugLog
     @Override
     public void updated() {
+        finish();
+    }
 
+    @DebugLog
+    @Override
+    public void updateGu(String[] gu) {
+        mLocalLiftAreas = gu;
+        mLocalAreaAdapter.clear();
+        mLocalAreaAdapter.addAll(mLocalLiftAreas);
     }
 }

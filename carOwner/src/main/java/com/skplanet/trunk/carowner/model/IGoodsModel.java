@@ -1,6 +1,8 @@
-package com.skplanet.trunk.carowner.register;
+package com.skplanet.trunk.carowner.model;
 
 import android.database.Cursor;
+
+import com.skplanet.trunk.carowner.model.Goods;
 
 import java.util.List;
 

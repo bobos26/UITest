@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:layout_margin="@dimen/activity_horizontal_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.skplanet.trunk.carowner.register.RegisterActivity"
+    tools:context="com.skplanet.trunk.carowner.goodsRegister.RegisterActivity"
     tools:showIn="@layout/activity_register">
 
     <LinearLayout
@@ -44,8 +44,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:id="@+id/wide_lift_area_spinner"
-                android:spinnerMode="dialog"
-                android:entries="@array/wide_lift_area" />
+                android:spinnerMode="dialog"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -60,8 +59,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:id="@+id/local_lift_area_spinner"
-                android:spinnerMode="dialog"
-                android:entries="@array/local_lift_area"/>
+                android:spinnerMode="dialog"/>
 
         </LinearLayout>
 

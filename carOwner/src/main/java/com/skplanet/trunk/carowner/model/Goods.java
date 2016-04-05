@@ -1,13 +1,18 @@
-package com.skplanet.trunk.carowner.register;
+package com.skplanet.trunk.carowner.model;
+
+import android.provider.BaseColumns;
 
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by a1000990 on 16. 3. 30..
  */
-@Table(name="goods")
+@Table(name="goods", id = BaseColumns._ID)
 public class Goods extends Model {
 
     @Column(name="wideLiftArea") // TODO default value가 필요한가?
@@ -46,6 +51,9 @@ public class Goods extends Model {
     @Column(name="goodsOwnerPhone")
     public String goodsOwnerPhone; // 하차지전화
 
+    @Column(name="time")
+    public long time;
+
     public Goods() {
         super();
     }
@@ -65,7 +73,11 @@ public class Goods extends Model {
         this.carCount = carCount;
         this.goodsRegisterPhone = goodsRegisterPhone;
         this.goodsOwnerPhone = goodsOwnerPhone;
+        this.time = System.currentTimeMillis();
+    }
 
+    public String getFullLiftArea() {
+        return "" + wideLiftArea + " " + localLiftArea + " " + liftArea;
     }
 
 }

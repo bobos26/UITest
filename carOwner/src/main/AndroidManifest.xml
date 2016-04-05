@@ -27,11 +27,10 @@
         </activity>
         <activity android:name=".TTSActivity" />
         <activity android:name=".ChartActivity" />
-
         <activity
-            android:name=".register.RegisterActivity"
+            android:name=".goodsRegister.RegisterActivity"
             android:label="@string/title_activity_register"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <!-- [START GCM] -->
         <receiver
@@ -62,7 +61,7 @@
         </service>
         <service
             android:name=".common.CommonIntentService"
-            android:exported="false"></service>
+            android:exported="false" />
 
         <!-- Active Android DB -->
         <meta-data
@@ -73,13 +72,14 @@
             android:value="1" />
         <meta-data
             android:name="AA_MODELS"
-            android:value="com.skplanet.trunk.carowner.model.BLERegion, com.skplanet.trunk.carowner.model.SettingData, com.skplanet.trunk.carowner.register.Goods" />
+            android:value="com.skplanet.trunk.carowner.model.BLERegion, com.skplanet.trunk.carowner.model.SettingData, com.skplanet.trunk.carowner.model.Goods" />
 
         <provider
             android:name="com.activeandroid.content.ContentProvider"
             android:authorities="com.skplanet.trunk.carowner"
             android:exported="false" />
 
+        <activity android:name=".goodsInfo.GoodsInfoActivity"></activity>
     </application>
 
 </manifest>
