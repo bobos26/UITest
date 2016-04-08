@@ -7,14 +7,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.skplanet.trunk.carowner.R;
+import com.skplanet.trunk.carowner.common.CurrencyTextWatcher;
 import com.skplanet.trunk.carowner.common.MainThreadImpl;
-import com.skplanet.trunk.carowner.common.ThreadExecutor;
-import com.skplanet.trunk.carowner.model.GoodsModel;
+import com.skplanet.trunk.carowner.common.PhoneNumberTextWatcher;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -67,6 +66,10 @@ public class RegisterActivity extends AppCompatActivity implements RegisterPrese
         mLocalAreaAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item);
         mWideAreaSpn.setAdapter(mWideAreaAdapter);
         mLocalAreaSpn.setAdapter(mLocalAreaAdapter);
+
+        mFeeEdit.addTextChangedListener(new CurrencyTextWatcher(mFeeEdit));
+        mGoodsRegisterPhoneEdit.addTextChangedListener(new PhoneNumberTextWatcher(mGoodsRegisterPhoneEdit));
+        mGoodsOwnerPhoneEdit.addTextChangedListener(new PhoneNumberTextWatcher(mGoodsOwnerPhoneEdit));
 
         mPresenter = new RegisterPresenter(MainThreadImpl.getInstance(), this);
 
@@ -130,7 +133,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterPrese
         String carType = mCarTypes[mCarTypeSpn.getSelectedItemPosition()];
         int fee = 0;
         try {
-            fee = Integer.parseInt(mFeeEdit.getText().toString());
+            fee = Integer.parseInt(mFeeEdit.getText().toString().replace(",", ""));
         } catch (NumberFormatException e) {
             e.printStackTrace();
         }

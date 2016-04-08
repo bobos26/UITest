@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.skplanet.trunk.carowner.goodsInfo.GoodsInfoActivity">
+    <item
+        android:id="@+id/actionInsertDB"
+        android:orderInCategory="100"
+        android:title="@string/actionInsertDB"
+        app:showAsAction="never" />
+
+</menu>

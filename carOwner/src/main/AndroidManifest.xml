@@ -32,6 +32,11 @@
             android:label="@string/title_activity_register"
             android:theme="@style/AppTheme.NoActionBar" />
 
+        <activity
+            android:name=".goodsInfo.GoodsInfoActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
         <!-- [START GCM] -->
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
@@ -79,7 +84,6 @@
             android:authorities="com.skplanet.trunk.carowner"
             android:exported="false" />
 
-        <activity android:name=".goodsInfo.GoodsInfoActivity"></activity>
     </application>
 
 </manifest>

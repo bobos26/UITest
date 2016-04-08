@@ -216,10 +216,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:id="@+id/fee_edit"
-                android:spinnerMode="dialog"
-                android:entries="@array/ton_type"
-                android:inputType="number"
-                android:text="0" />
+                android:inputType="number|numberDecimal" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -256,7 +253,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="4"
                 android:id="@+id/goods_register_phone_edit"
-                android:phoneNumber="true" />
+                android:phoneNumber="true"
+                android:inputType="phone" />
 
         </LinearLayout>
 
@@ -279,7 +277,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="4"
                 android:id="@+id/goods_owner_phone_edit"
-                android:phoneNumber="true" />
+                android:phoneNumber="true"
+                android:inputType="phone" />
 
         </LinearLayout>
 

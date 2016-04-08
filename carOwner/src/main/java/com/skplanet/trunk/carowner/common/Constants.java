@@ -30,5 +30,8 @@ public class Constants {
     public static final String B = new String(new byte[] {0x25, 0x54, 0x44});
     public static final String O = new String(new byte[] {0x6e, 0x7b, 0x6e});
     public static final String A = new String(new byte[] {0x56, 0x6e, 0x56, 0x2a});
+
+
+    public static final String SIGU = "{\"서울시\":[\"강동구\",\"송파구\",\"강남구\"],\"부산시\":[\"강서구\",\"부산진구\",\"서구\"],\"성남시\":[\"분당구\",\"중원구\"]}";
 }
 

@@ -1,5 +1,6 @@
 package com.skplanet.trunk.carowner.goodsRegister;
 
+import com.skplanet.trunk.carowner.common.Constants;
 import com.skplanet.trunk.carowner.common.MainThreadImpl;
 import com.skplanet.trunk.carowner.model.Goods;
 import com.skplanet.trunk.carowner.model.GoodsModel;
@@ -17,7 +18,6 @@ import java.util.List;
  */
 public class RegisterPresenter implements GoodsModel.ICallback {
     // TODO 지역 시/구 정보를 서버에서 받아오자
-    String SIGU = "{\"서울시\":[\"강동구\",\"송파구\",\"강남구\"],\"부산시\":[\"강서구\",\"부산진구\",\"서구\"],\"성남시\":[\"분당구\",\"중원구\"]}";
 
     private IRegisterView mView;
     private IGoodsModel mModel;
@@ -31,7 +31,7 @@ public class RegisterPresenter implements GoodsModel.ICallback {
         mView = iRegisterView;
         mModel = new GoodsModel(this);
         try {
-            mSiDoObj = new JSONObject(SIGU);
+            mSiDoObj = new JSONObject(Constants.SIGU);
         } catch (JSONException e) {
             e.printStackTrace();
         }
