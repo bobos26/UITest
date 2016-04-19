@@ -26,6 +26,8 @@ public class BLERegion extends Model {
     public int minor;
     @Column(name="mid", index=true)
     public String mid;
+    @Column(name="nextUrl")
+    public String nextUrl;
 
     public BLERegion() {
         super();
