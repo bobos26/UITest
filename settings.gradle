@@ -4,4 +4,4 @@ include ':app', ':debug',
         ':externals:tmap',
         ':apiDemos',
         ':cleanSampleApp',
-        ':archi', ':carOwner', ':externals:crypto'
+        ':archi', ':carOwner', ':externals:crypto', ':sample', ':CameraModule'
