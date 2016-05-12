@@ -42,7 +42,7 @@ public class GoodsInfoPresenter extends AbstractPresenter {
                     null, // projection
                     location != null && tonType != null ? "wideLiftArea = ? AND ton = ?" : null, // selection
                     location != null && tonType != null ? new String[] {location, tonType} : null, // selectionArgs
-                    null);// sortOrder
+                    "time ASC");// sortOrder
     }
 
     public String[] getSi() {

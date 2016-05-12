@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.OvershootInterpolator;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -34,6 +35,8 @@ import java.util.Locale;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import hugo.weaving.DebugLog;
+import jp.wasabeef.recyclerview.adapters.SlideInLeftAnimationAdapter;
+import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator;
 
 public class GoodsInfoFragment extends Fragment implements GoodsInfoPresenter.IGoodsInfoView, Spinner.OnItemSelectedListener {
 
@@ -89,8 +92,11 @@ public class GoodsInfoFragment extends Fragment implements GoodsInfoPresenter.IG
         mLocationSpinner.setOnItemSelectedListener(this);
         mTonTypeSpinner.setOnItemSelectedListener(this);
 
-        mAdapter = new RecyclerCursorAdapter(getActivity(), null);
+        mAdapter = new RecyclerCursorAdapter();
         recyclerView.setAdapter(mAdapter);
+        SlideInLeftAnimator animator = new SlideInLeftAnimator();
+        animator.setInterpolator(new OvershootInterpolator());
+        recyclerView.setItemAnimator(animator);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         getLoaderManager().initLoader(0, new Bundle(), mLoaderCallback);
     }
@@ -138,10 +144,11 @@ public class GoodsInfoFragment extends Fragment implements GoodsInfoPresenter.IG
 
     public class RecyclerCursorAdapter extends CursorRecyclerViewAdapter<RecyclerCursorAdapter.ViewHolder> {
 
-        public RecyclerCursorAdapter(Context context, Cursor cursor) {
-            super(context, cursor);
-        }
+//        public RecyclerCursorAdapter(Context context, Cursor cursor) {
+//            super(context, cursor);
+//        }
 
+        @DebugLog
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             Context context = parent.getContext();
@@ -153,6 +160,7 @@ public class GoodsInfoFragment extends Fragment implements GoodsInfoPresenter.IG
             return viewHolder;
         }
 
+        @DebugLog
         @Override
         public void onBindViewHolder(ViewHolder viewHolder, Cursor cursor) {
             Goods goods = GoodsModel.fromCursor(cursor);
