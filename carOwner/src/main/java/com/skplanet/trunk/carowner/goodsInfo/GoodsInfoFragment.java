@@ -2,7 +2,9 @@ package com.skplanet.trunk.carowner.goodsInfo;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -22,7 +24,9 @@ import android.widget.TextView;
 
 import com.activeandroid.content.ContentProvider;
 import com.skplanet.trunk.carowner.R;
+import com.skplanet.trunk.carowner.common.Constants;
 import com.skplanet.trunk.carowner.common.CursorRecyclerViewAdapter;
+import com.skplanet.trunk.carowner.common.LLog;
 import com.skplanet.trunk.carowner.common.MainThreadImpl;
 import com.skplanet.trunk.carowner.model.Goods;
 import com.skplanet.trunk.carowner.model.GoodsModel;
@@ -48,8 +52,9 @@ public class GoodsInfoFragment extends Fragment implements GoodsInfoPresenter.IG
     Spinner mTonTypeSpinner;
     @Bind(R.id.homeButton)
     Button mHomeButton;
-    ArrayAdapter<String> mLocationAdapter;
 
+    RecyclerView mRecyclerView;
+    ArrayAdapter<String> mLocationAdapter;
     String mSelectedLocation, mSelectedTonType;
     String[] mTonTypes;
 
@@ -73,7 +78,7 @@ public class GoodsInfoFragment extends Fragment implements GoodsInfoPresenter.IG
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        RecyclerView recyclerView = (RecyclerView) getActivity().findViewById(R.id.goodInfoRecyclerView);
+        mRecyclerView = (RecyclerView) getActivity().findViewById(R.id.goodInfoRecyclerView);
         RelativeLayout rootLayout = (RelativeLayout) getActivity().findViewById(R.id.fragment_recycler);
         ButterKnife.bind(this, rootLayout);
 
@@ -93,11 +98,11 @@ public class GoodsInfoFragment extends Fragment implements GoodsInfoPresenter.IG
         mTonTypeSpinner.setOnItemSelectedListener(this);
 
         mAdapter = new RecyclerCursorAdapter();
-        recyclerView.setAdapter(mAdapter);
+        mRecyclerView.setAdapter(mAdapter);
         SlideInLeftAnimator animator = new SlideInLeftAnimator();
         animator.setInterpolator(new OvershootInterpolator());
-        recyclerView.setItemAnimator(animator);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRecyclerView.setItemAnimator(animator);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         getLoaderManager().initLoader(0, new Bundle(), mLoaderCallback);
     }
 
@@ -144,10 +149,6 @@ public class GoodsInfoFragment extends Fragment implements GoodsInfoPresenter.IG
 
     public class RecyclerCursorAdapter extends CursorRecyclerViewAdapter<RecyclerCursorAdapter.ViewHolder> {
 
-//        public RecyclerCursorAdapter(Context context, Cursor cursor) {
-//            super(context, cursor);
-//        }
-
         @DebugLog
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -173,11 +174,20 @@ public class GoodsInfoFragment extends Fragment implements GoodsInfoPresenter.IG
             viewHolder.ton.setText(goods.ton);
             viewHolder.carType.setText(goods.carType);
 
-            SimpleDateFormat sdf = new SimpleDateFormat("MM-dd HH:mm");
+            SimpleDateFormat sdf = new SimpleDateFormat("MM-dd HH:mm:ss");
             viewHolder.dateTime.setText(sdf.format(new Date(goods.time)));
+
+            if (cursor.getPosition() < 2) {
+                viewHolder.listItemRoot.setBackgroundColor(Color.RED);
+
+            } else {
+                viewHolder.listItemRoot.setBackgroundColor(Color.WHITE);
+            }
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
+            @Bind(R.id.list_item_root)
+            RelativeLayout listItemRoot;
             @Bind(R.id.lift_area_text)
             TextView liftArea;
             @Bind(R.id.land_area_text)

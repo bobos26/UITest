@@ -139,9 +139,11 @@ public class GoodsModel implements IGoodsModel {
         int carCount = cursor.getInt(cursor.getColumnIndexOrThrow("carCount"));
         String goodsRegisterPhone = cursor.getString(cursor.getColumnIndexOrThrow("goodsRegisterPhone"));
         String goodsOwnerPhone = cursor.getString(cursor.getColumnIndexOrThrow("goodsOwnerPhone"));
+        long time = cursor.getLong(cursor.getColumnIndexOrThrow("time"));
 
         Goods goods = new Goods(wideLiftArea, localLiftArea, liftArea, liftMethod,
                 landArea, landMethod, ton, carType, fee, carCount, goodsRegisterPhone, goodsOwnerPhone);
+        goods.time = time;
         return goods;
     }
 

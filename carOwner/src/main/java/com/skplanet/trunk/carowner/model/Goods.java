@@ -51,6 +51,9 @@ public class Goods extends Model {
     @Column(name="goodsOwnerPhone")
     public String goodsOwnerPhone; // 하차지전화
 
+    @Column(name="sortOrder")
+    public long sortOrder;
+
     @Column(name="time")
     public long time;
 
@@ -73,7 +76,6 @@ public class Goods extends Model {
         this.carCount = carCount;
         this.goodsRegisterPhone = goodsRegisterPhone;
         this.goodsOwnerPhone = goodsOwnerPhone;
-        this.time = System.currentTimeMillis();
     }
 
     public String getFullLiftArea() {

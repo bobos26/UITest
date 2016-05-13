@@ -61,7 +61,7 @@ abstract public class CursorRecyclerViewAdapter<VH extends RecyclerView.ViewHold
 
     private boolean notifyItems(Cursor oldCursor, Cursor newCursor) {
         String[] columns = new String[]{
-                "time"
+                "sortOrder"
         };
         CursorJoiner joiner = new CursorJoiner(oldCursor, columns, newCursor, columns);
         for (CursorJoiner.Result res : joiner) {

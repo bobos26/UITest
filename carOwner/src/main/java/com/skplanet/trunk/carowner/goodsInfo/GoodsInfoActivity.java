@@ -53,10 +53,11 @@ public class GoodsInfoActivity extends AppCompatActivity implements GoodsModel.I
                     goods.wideLiftArea = "서울시";
                     goods.localLiftArea = "서면";
                     goods.liftArea = "";
-                    goods.landArea = "서울시 천호" + new Random().nextInt() + "동";
+                    goods.landArea = "서울시 천호" + 1 + "동";
                     goods.ton = "1톤미만";
                     goods.fee = 1000000;
-                    goods.time = Long.MAX_VALUE - System.currentTimeMillis();
+                    goods.time = System.currentTimeMillis();
+                    goods.sortOrder = Long.MAX_VALUE - System.currentTimeMillis();
                     goods.save();
 //                }
 //                ActiveAndroid.setTransactionSuccessful();
