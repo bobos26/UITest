@@ -22,10 +22,10 @@ import com.skplanet.trunk.carowner.common.Constants;
 import com.skplanet.trunk.carowner.common.LLog;
 import com.skplanet.trunk.carowner.common.Volleyer;
 import com.skplanet.trunk.carowner.goodsInfo.GoodsInfoActivity;
+import com.skplanet.trunk.carowner.goodsRegister.RegisterActivity;
 import com.skplanet.trunk.carowner.model.BLERegion;
 import com.skplanet.trunk.carowner.model.JsonObjectRequestTrunk;
 import com.skplanet.trunk.carowner.model.SettingData;
-import com.skplanet.trunk.carowner.goodsRegister.RegisterActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -73,6 +73,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @DebugLog
     private void initUI() {
         setSupportActionBar(toolbar);
+    }
+
+    private static final String EXCHANGE_NAME = "direct_logs";
+
+    private static void doWork(String task) {
+        for (char ch : task.toCharArray()) {
+            if (ch == '.') {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException _ignored) {
+                    Thread.currentThread().interrupt();
+                }
+            }
+        }
     }
 
     public void getInstanceIdToken() {

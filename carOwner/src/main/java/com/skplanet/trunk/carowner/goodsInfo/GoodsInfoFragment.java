@@ -4,10 +4,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.SystemClock;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,11 +22,8 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.activeandroid.content.ContentProvider;
 import com.skplanet.trunk.carowner.R;
-import com.skplanet.trunk.carowner.common.Constants;
 import com.skplanet.trunk.carowner.common.CursorRecyclerViewAdapter;
-import com.skplanet.trunk.carowner.common.LLog;
 import com.skplanet.trunk.carowner.common.MainThreadImpl;
 import com.skplanet.trunk.carowner.model.Goods;
 import com.skplanet.trunk.carowner.model.GoodsModel;
@@ -39,11 +36,11 @@ import java.util.Locale;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import hugo.weaving.DebugLog;
-import jp.wasabeef.recyclerview.adapters.SlideInLeftAnimationAdapter;
 import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator;
 
 public class GoodsInfoFragment extends Fragment implements GoodsInfoPresenter.IGoodsInfoView, Spinner.OnItemSelectedListener {
 
+    private static final String TAG = GoodsInfoFragment.class.getSimpleName();
     RecyclerCursorAdapter mAdapter;
     GoodsInfoPresenter mPresenter;
     @Bind(R.id.locationSpinner)
@@ -58,8 +55,6 @@ public class GoodsInfoFragment extends Fragment implements GoodsInfoPresenter.IG
     String mSelectedLocation, mSelectedTonType;
     String[] mTonTypes;
 
-    public GoodsInfoFragment() {
-    }
 
     @Override
     public void setArguments(Bundle bundle) {
@@ -72,6 +67,14 @@ public class GoodsInfoFragment extends Fragment implements GoodsInfoPresenter.IG
         View rootView = inflater.inflate(R.layout.fragment_goods_info, container, false);
 
         return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (mAdapter != null) {
+            mAdapter.destroyView();
+        }
     }
 
     @Override
@@ -109,7 +112,7 @@ public class GoodsInfoFragment extends Fragment implements GoodsInfoPresenter.IG
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         // TODO spinner가 2개이면, onCreate시 onItemSelected가 2번 호출된다.
-        switch(parent.getId()) {
+        switch (parent.getId()) {
             case R.id.locationSpinner:
                 mSelectedLocation = mLocationAdapter.getItem(position);
                 getLoaderManager().restartLoader(0, new Bundle(), mLoaderCallback);
@@ -123,7 +126,6 @@ public class GoodsInfoFragment extends Fragment implements GoodsInfoPresenter.IG
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-
     }
 
     private LoaderManager.LoaderCallbacks<Cursor> mLoaderCallback = new LoaderManager.LoaderCallbacks<Cursor>() {
@@ -138,6 +140,7 @@ public class GoodsInfoFragment extends Fragment implements GoodsInfoPresenter.IG
         @Override
         public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
             mAdapter.swapCursor(cursor);
+            mRecyclerView.scrollToPosition(0);
         }
 
         @DebugLog
@@ -147,9 +150,34 @@ public class GoodsInfoFragment extends Fragment implements GoodsInfoPresenter.IG
         }
     };
 
-    public class RecyclerCursorAdapter extends CursorRecyclerViewAdapter<RecyclerCursorAdapter.ViewHolder> {
+    public class RecyclerCursorAdapter extends CursorRecyclerViewAdapter<RecyclerCursorAdapter.ViewHolder> implements GoodsModel.ICallback {
 
-        @DebugLog
+        private static final int MSG_TOGGLE_ITEM = -1;
+
+        private Handler mHandler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                switch (msg.what) {
+                    case MSG_TOGGLE_ITEM:
+                        notifyItemChanged(msg.arg1);
+                        ViewHolder viewHolder = (ViewHolder) msg.obj;
+                        if (viewHolder != null) {
+                            viewHolder.toggled = false;
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+        };
+        // sendMessageDelayed(2초)를 쓰고 있으므로, 종료시 대기중인 Message들을 다 종료시켜 줘야한다.
+        public void destroyView() {
+            if (mHandler != null) {
+                mHandler.removeMessages(MSG_TOGGLE_ITEM);
+                mHandler = null;
+            }
+        }
+
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             Context context = parent.getContext();
@@ -158,12 +186,12 @@ public class GoodsInfoFragment extends Fragment implements GoodsInfoPresenter.IG
             View view = inflater.inflate(R.layout.list_item, parent, false);
 
             ViewHolder viewHolder = new ViewHolder(view);
+            viewHolder.toggled = true;
             return viewHolder;
         }
 
-        @DebugLog
         @Override
-        public void onBindViewHolder(ViewHolder viewHolder, Cursor cursor) {
+        public void onBindViewHolder(final ViewHolder viewHolder, Cursor cursor) {
             Goods goods = GoodsModel.fromCursor(cursor);
 
             viewHolder.liftArea.setText(goods.getFullLiftArea());
@@ -177,10 +205,17 @@ public class GoodsInfoFragment extends Fragment implements GoodsInfoPresenter.IG
             SimpleDateFormat sdf = new SimpleDateFormat("MM-dd HH:mm:ss");
             viewHolder.dateTime.setText(sdf.format(new Date(goods.time)));
 
-            if (cursor.getPosition() < 2) {
-                viewHolder.listItemRoot.setBackgroundColor(Color.RED);
-
-            } else {
+            final int cursorPosition = cursor.getPosition();
+            if (mInsertedItems.contains(cursorPosition)) {
+                viewHolder.listItemRoot.setBackgroundColor(Color.YELLOW);
+                viewHolder.toggled = true;
+                mInsertedItems.remove(Integer.valueOf(cursorPosition));
+                if (mHandler != null) {
+                    Message msg = mHandler.obtainMessage(MSG_TOGGLE_ITEM, cursorPosition, 0, viewHolder);
+                    mHandler.sendMessageDelayed(msg, 2000);
+                }
+            }
+            if (!viewHolder.toggled) {
                 viewHolder.listItemRoot.setBackgroundColor(Color.WHITE);
             }
         }
@@ -202,11 +237,20 @@ public class GoodsInfoFragment extends Fragment implements GoodsInfoPresenter.IG
             TextView carType;
             @Bind(R.id.description_text)
             TextView descript;
+            boolean toggled;
 
             public ViewHolder(View itemView) {
                 super(itemView);
                 ButterKnife.bind(this, itemView);
             }
+        }
+
+        @Override
+        public void insertAllCompleted() {
+        }
+
+        @Override
+        public void deleteAllCompleted() {
         }
     }
 }

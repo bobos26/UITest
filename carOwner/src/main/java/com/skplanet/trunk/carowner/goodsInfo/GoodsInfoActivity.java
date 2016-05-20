@@ -47,8 +47,9 @@ public class GoodsInfoActivity extends AppCompatActivity implements GoodsModel.I
         int id = item.getItemId();
         switch (id) {
             case R.id.actionInsertDB:
-//                ActiveAndroid.beginTransaction();
-//                for (int i = 0; i < 2; i++) {
+                int count = new Random(1241).nextInt(3);
+                ActiveAndroid.beginTransaction();
+                for (int i = 0; i < count+1; i++) {
                     Goods goods = new Goods();
                     goods.wideLiftArea = "서울시";
                     goods.localLiftArea = "서면";
@@ -58,10 +59,11 @@ public class GoodsInfoActivity extends AppCompatActivity implements GoodsModel.I
                     goods.fee = 1000000;
                     goods.time = System.currentTimeMillis();
                     goods.sortOrder = Long.MAX_VALUE - System.currentTimeMillis();
+                    goods.modified = false;
                     goods.save();
-//                }
-//                ActiveAndroid.setTransactionSuccessful();
-//                ActiveAndroid.endTransaction();
+                }
+                ActiveAndroid.setTransactionSuccessful();
+                ActiveAndroid.endTransaction();
                 break;
             case R.id.actionRemoveDB:
                 mModel.deleteAll();

@@ -54,8 +54,11 @@ public class Goods extends Model {
     @Column(name="sortOrder")
     public long sortOrder;
 
-    @Column(name="time")
+    @Column(name="time", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
     public long time;
+
+    @Column(name="modified")
+    public boolean modified;
 
     public Goods() {
         super();

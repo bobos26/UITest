@@ -8,6 +8,7 @@ import com.activeandroid.ActiveAndroid;
 import com.activeandroid.Cache;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
+import com.activeandroid.query.Update;
 
 import java.util.List;
 
@@ -64,7 +65,7 @@ public class GoodsModel implements IGoodsModel {
 
     @Override
     public void update(Goods goods) {
-        // need to implements
+        goods.save();
     }
 
     @Override
@@ -140,10 +141,12 @@ public class GoodsModel implements IGoodsModel {
         String goodsRegisterPhone = cursor.getString(cursor.getColumnIndexOrThrow("goodsRegisterPhone"));
         String goodsOwnerPhone = cursor.getString(cursor.getColumnIndexOrThrow("goodsOwnerPhone"));
         long time = cursor.getLong(cursor.getColumnIndexOrThrow("time"));
+        boolean modified = cursor.getInt(cursor.getColumnIndex("modified")) == 1;
 
         Goods goods = new Goods(wideLiftArea, localLiftArea, liftArea, liftMethod,
                 landArea, landMethod, ton, carType, fee, carCount, goodsRegisterPhone, goodsOwnerPhone);
         goods.time = time;
+        goods.modified = modified;
         return goods;
     }
 
