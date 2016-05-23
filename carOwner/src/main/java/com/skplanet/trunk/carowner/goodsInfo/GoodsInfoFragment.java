@@ -54,6 +54,7 @@ public class GoodsInfoFragment extends Fragment implements GoodsInfoPresenter.IG
     ArrayAdapter<String> mLocationAdapter;
     String mSelectedLocation, mSelectedTonType;
     String[] mTonTypes;
+    private boolean aniOnly;
 
 
     @Override
@@ -71,10 +72,10 @@ public class GoodsInfoFragment extends Fragment implements GoodsInfoPresenter.IG
 
     @Override
     public void onDestroyView() {
-        super.onDestroyView();
         if (mAdapter != null) {
             mAdapter.destroyView();
         }
+        super.onDestroyView();
     }
 
     @Override
@@ -105,6 +106,9 @@ public class GoodsInfoFragment extends Fragment implements GoodsInfoPresenter.IG
         SlideInLeftAnimator animator = new SlideInLeftAnimator();
         animator.setInterpolator(new OvershootInterpolator());
         mRecyclerView.setItemAnimator(animator);
+        RecyclerView.ItemDecoration itemDecoration = new
+                DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST);
+        mRecyclerView.addItemDecoration(itemDecoration);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         getLoaderManager().initLoader(0, new Bundle(), mLoaderCallback);
     }
@@ -149,6 +153,10 @@ public class GoodsInfoFragment extends Fragment implements GoodsInfoPresenter.IG
             mAdapter.swapCursor(null);
         }
     };
+
+    public void setAniOnly(boolean aniOnly) {
+        this.aniOnly = aniOnly;
+    }
 
     public class RecyclerCursorAdapter extends CursorRecyclerViewAdapter<RecyclerCursorAdapter.ViewHolder> implements GoodsModel.ICallback {
 
@@ -204,6 +212,9 @@ public class GoodsInfoFragment extends Fragment implements GoodsInfoPresenter.IG
 
             SimpleDateFormat sdf = new SimpleDateFormat("MM-dd HH:mm:ss");
             viewHolder.dateTime.setText(sdf.format(new Date(goods.time)));
+            if (aniOnly == true) {
+                return;
+            }
 
             final int cursorPosition = cursor.getPosition();
             if (mInsertedItems.contains(cursorPosition)) {
@@ -212,7 +223,7 @@ public class GoodsInfoFragment extends Fragment implements GoodsInfoPresenter.IG
                 mInsertedItems.remove(Integer.valueOf(cursorPosition));
                 if (mHandler != null) {
                     Message msg = mHandler.obtainMessage(MSG_TOGGLE_ITEM, cursorPosition, 0, viewHolder);
-                    mHandler.sendMessageDelayed(msg, 2000);
+                    mHandler.sendMessageDelayed(msg, 1000);
                 }
             }
             if (!viewHolder.toggled) {

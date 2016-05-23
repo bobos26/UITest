@@ -7,10 +7,14 @@
         android:orderInCategory="100"
         android:title="@string/actionInsertDB"
         app:showAsAction="never" />
-
     <item
         android:id="@+id/actionRemoveDB"
         android:orderInCategory="100"
         android:title="@string/actionRemoveDB"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/actionAniOnly"
+        android:orderInCategory="100"
+        android:title="@string/action_ani_only"
+        app:showAsAction="never"/>
 </menu>

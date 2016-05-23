@@ -3,12 +3,14 @@ package com.skplanet.trunk.carowner.goodsInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.activeandroid.ActiveAndroid;
 import com.skplanet.trunk.carowner.R;
+import com.skplanet.trunk.carowner.common.LLog;
 import com.skplanet.trunk.carowner.model.Goods;
 import com.skplanet.trunk.carowner.model.GoodsModel;
 
@@ -47,8 +49,9 @@ public class GoodsInfoActivity extends AppCompatActivity implements GoodsModel.I
         int id = item.getItemId();
         switch (id) {
             case R.id.actionInsertDB:
-                int count = new Random(1241).nextInt(3);
+                int count = Math.abs(new Random().nextInt()) % 5;
                 ActiveAndroid.beginTransaction();
+
                 for (int i = 0; i < count+1; i++) {
                     Goods goods = new Goods();
                     goods.wideLiftArea = "서울시";
@@ -68,8 +71,12 @@ public class GoodsInfoActivity extends AppCompatActivity implements GoodsModel.I
             case R.id.actionRemoveDB:
                 mModel.deleteAll();
                 break;
-        }
+            case R.id.actionAniOnly:
+                GoodsInfoFragment fragment = (GoodsInfoFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_recycler);
+                fragment.setAniOnly(true);
 
+                break;
+        }
         return super.onOptionsItemSelected(item);
     }
 

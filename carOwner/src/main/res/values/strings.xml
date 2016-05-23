@@ -10,4 +10,5 @@
     <string name="actionInsertDB">DB Insert</string>
     <string name="actionRemoveDB">DB 삭제</string>
     <string name="toast_delete_all_success">DB가 삭제 되었습니다.</string>
+    <string name="action_ani_only">에니메이션 Only</string>
 </resources>
