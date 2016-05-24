@@ -49,7 +49,7 @@ public class GoodsInfoActivity extends AppCompatActivity implements GoodsModel.I
         int id = item.getItemId();
         switch (id) {
             case R.id.actionInsertDB:
-                int count = Math.abs(new Random().nextInt()) % 5;
+                int count = Math.abs(new Random().nextInt()) % 4;
                 ActiveAndroid.beginTransaction();
 
                 for (int i = 0; i < count+1; i++) {

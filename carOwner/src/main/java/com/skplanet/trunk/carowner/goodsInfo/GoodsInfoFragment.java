@@ -36,6 +36,11 @@ import java.util.Locale;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import hugo.weaving.DebugLog;
+import jp.wasabeef.recyclerview.animators.FadeInDownAnimator;
+import jp.wasabeef.recyclerview.animators.FlipInBottomXAnimator;
+import jp.wasabeef.recyclerview.animators.OvershootInLeftAnimator;
+import jp.wasabeef.recyclerview.animators.ScaleInBottomAnimator;
+import jp.wasabeef.recyclerview.animators.SlideInDownAnimator;
 import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator;
 
 public class GoodsInfoFragment extends Fragment implements GoodsInfoPresenter.IGoodsInfoView, Spinner.OnItemSelectedListener {
@@ -103,8 +108,9 @@ public class GoodsInfoFragment extends Fragment implements GoodsInfoPresenter.IG
 
         mAdapter = new RecyclerCursorAdapter();
         mRecyclerView.setAdapter(mAdapter);
-        SlideInLeftAnimator animator = new SlideInLeftAnimator();
-        animator.setInterpolator(new OvershootInterpolator());
+        SlideInDownAnimator animator = new SlideInDownAnimator();
+        animator.setAddDuration(200);
+        animator.setInterpolator(new OvershootInterpolator(1.0f));
         mRecyclerView.setItemAnimator(animator);
         RecyclerView.ItemDecoration itemDecoration = new
                 DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST);
@@ -212,22 +218,23 @@ public class GoodsInfoFragment extends Fragment implements GoodsInfoPresenter.IG
 
             SimpleDateFormat sdf = new SimpleDateFormat("MM-dd HH:mm:ss");
             viewHolder.dateTime.setText(sdf.format(new Date(goods.time)));
+
             if (aniOnly == true) {
                 return;
             }
 
             final int cursorPosition = cursor.getPosition();
             if (mInsertedItems.contains(cursorPosition)) {
-                viewHolder.listItemRoot.setBackgroundColor(Color.YELLOW);
+                viewHolder.listItemRoot.setBackgroundColor(Color.WHITE);
                 viewHolder.toggled = true;
                 mInsertedItems.remove(Integer.valueOf(cursorPosition));
                 if (mHandler != null) {
                     Message msg = mHandler.obtainMessage(MSG_TOGGLE_ITEM, cursorPosition, 0, viewHolder);
-                    mHandler.sendMessageDelayed(msg, 1000);
+                    mHandler.sendMessageDelayed(msg, 2000);
                 }
             }
             if (!viewHolder.toggled) {
-                viewHolder.listItemRoot.setBackgroundColor(Color.WHITE);
+                viewHolder.listItemRoot.setBackgroundColor(0xd3d3d3);
             }
         }
 
