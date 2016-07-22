@@ -1,0 +1,36 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainPage.MainActivity">
+    <item
+        android:id="@+id/action_preference"
+        android:orderInCategory="100"
+        android:title="@string/action_preference"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_database"
+        android:orderInCategory="100"
+        android:title="@string/action_database"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_volley"
+        android:orderInCategory="100"
+        android:title="@string/action_volley"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_gcm"
+        android:orderInCategory="100"
+        android:title="@string/action_gcm"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_tts"
+        android:orderInCategory="100"
+        android:title="@string/action_tts"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_chart"
+        android:orderInCategory="100"
+        android:title="Hello Chart"
+        app:showAsAction="never" />
+
+</menu>

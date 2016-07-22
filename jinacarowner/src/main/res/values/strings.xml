@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Car Owner</string>
+    <string name="action_database">Database</string>
+    <string name="action_preference">Preference</string>
+    <string name="action_volley">volley</string>
+    <string name="action_gcm">Register GCM</string>
+    <string name="action_tts">Text-To-Speech</string> 
+
+    <string name="fragment_main_title">\'스티커 미부착시 사용정지 됩니다\'</string>
+    <string name="car_info">화물정보</string>
+    <string name="register_by_voice">음성등록</string>
+    <string name="order_info">배차정보</string>
+    <string name="register_goods">화물등록</string>
+    <string name="register_empty_car">공차등록</string>
+    <string name="homepage">홈페이지</string>
+    <string name="notices">공지\n사항</string>
+    <string name="settings">환경\n설정</string>
+    <string name="information_fee">정보\n이용료</string>
+    <string name="home">홈</string>
+    <string name="register_voice_order">음성오더등록</string>
+    <string name="goods_registration_log">화물등록내역</string>
+    <string name="call_center_number">tel:010-3898-6209</string>
+    <string name="ton">%s톤</string>
+</resources>

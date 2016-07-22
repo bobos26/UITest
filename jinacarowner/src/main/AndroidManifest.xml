@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.skplanet.trunk.carowner">
+
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- [START gcm_permission] -->
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <!-- [END gcm_permission] -->
+
+    <application
+        android:name="com.skplanet.trunk.carowner.MainApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+
+        <activity
+            android:name=".MainPage.MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".TTSActivity"/>
+        <activity android:name=".ChartActivity"/>
+        <activity android:name=".SecondPage.SecondActivity"
+                  android:theme="@style/AppTheme.NoActionBar"/>
+
+        <!-- [START GCM] -->
+        <receiver
+            android:name="com.google.android.gms.gcm.GcmReceiver"
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+                <category android:name="com.skplanet.trunk.carowner" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name="com.skplanet.trunk.carowner.gcm.MyGcmListenerService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name="com.skplanet.trunk.carowner.gcm.MyInstanceIDListenerService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.android.gms.iid.InstanceID" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name="com.skplanet.trunk.carowner.common.CommonIntentService"
+            android:exported="false">
+        </service>
+
+        <!-- Active Android DB -->
+        <meta-data
+            android:name="AA_DB_NAME"
+            android:value="trunk.db" />
+        <meta-data
+            android:name="AA_DB_VERSION"
+            android:value="1" />
+        <meta-data
+            android:name="AA_MODELS"
+            android:value="com.skplanet.trunk.carowner.model.BLERegion, com.skplanet.trunk.carowner.model.SettingData,
+             com.skplanet.trunk.carowner.SecondPage.RegisterGoodsData"/>
+        <provider
+            android:authorities="com.skplanet.trunk.carowner"
+            android:exported="false"
+            android:name="com.activeandroid.content.ContentProvider" />
+
+    </application>
+
+</manifest>

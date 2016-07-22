@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/list_row_selector"
+                android:padding="@dimen/common_margin_8dp">
+
+    <!-- Thumbnail Image -->
+    <ImageView
+        android:id="@+id/image_view"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginRight="@dimen/common_margin_8dp"/>
+
+    <!-- targetId -->
+    <TextView
+        android:id="@+id/target_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/image_view"
+        android:layout_toRightOf="@+id/image_view"
+        android:textSize="@dimen/row_title"
+        android:textStyle="bold"/>
+
+    <!-- major -->
+    <TextView
+        android:id="@+id/major"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/target_id"
+        android:layout_marginTop="1dip"
+        android:layout_toRightOf="@+id/image_view"
+        android:textColor="@color/row_body"
+        android:textSize="@dimen/row_body"/>
+
+    <!-- minor -->
+    <TextView
+        android:id="@+id/minor"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/major"
+        android:layout_marginTop="1dip"
+        android:layout_toRightOf="@+id/image_view"
+        android:textColor="@color/row_body"
+        android:textSize="@dimen/row_body"/>
+</RelativeLayout>

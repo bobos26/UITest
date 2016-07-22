@@ -1,7 +1,15 @@
-include ':app', ':debug',
+include ':app', ':debug', ':androidsample',
         ':RecyclerView',
         ':externals:volley',
         ':externals:tmap',
         ':apiDemos',
         ':cleanSampleApp',
-        ':archi', ':carOwner', ':externals:crypto', ':sample', ':CameraModule'
+        ':archi',
+        ':carowner_listview',
+        ':externals:crypto',
+        ':CustomCamera',
+        ':CameraModule',
+        ':horizontalFragment',
+        ':prototype',
+        ':jinacarowner',
+        ':hideOnScrollExample'

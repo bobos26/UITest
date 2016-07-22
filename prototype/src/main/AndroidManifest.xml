@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest
+    package="com.skplanet.prototype"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.SEND_SMS"/>
+
+    <!-- Tmap -->
+    <!--<uses-permission android:name="android.permission.INTERNET"></uses-permission>-->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
+    <uses-permission android:name="android.permission.WRITE_OWNER_DATA"></uses-permission>
+    <uses-permission android:name="android.permission.READ_OWNER_DATA"></uses-permission>
+
+    <application
+        android:name=".serverAPIs.Volley.AppController"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".activities.MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".activities.SendSmsActivity"/>
+        <activity android:name=".activities.GCMActivity"/>
+        <activity android:name=".activities.ChartActivity"/>
+        <activity android:name=".activities.CustomerActivity"/>
+        <activity android:name=".tmap.TmapActivity"/>
+        <activity android:name=".activeAndroid.ActiveAndroidActivity"/>
+
+        <!-- [START gcm_permission] -->
+        <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
+        <uses-permission android:name="android.permission.WAKE_LOCK"/>
+        <!-- [END gcm_permission] -->
+
+        <!-- [START gcm_receiver] -->
+        <receiver
+            android:name="com.google.android.gms.gcm.GcmReceiver"
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+                <category android:name="com.skplanet.prototype"/>
+            </intent-filter>
+        </receiver>
+        <!-- [END gcm_receiver] -->
+
+        <!-- [START gcm_listener_service] -->
+        <service
+            android:name="com.skplanet.prototype.gcm.MyGcmListenerService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+            </intent-filter>
+        </service>
+        <!-- [END gcm_listener_service] -->
+
+        <!-- [START instanceId_listener_service] -->
+        <service
+            android:name="com.skplanet.prototype.gcm.MyInstanceIDListenerService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.android.gms.iid.InstanceID"/>
+            </intent-filter>
+        </service>
+        <!-- [END instanceId_listener_service] -->
+
+        <!-- [START gcm_registration_service] -->
+        <service
+            android:name="com.skplanet.prototype.gcm.RegistrationIntentService"
+            android:exported="false"></service>
+        <!-- [END gcm_registration_service] -->
+
+    </application>
+</manifest>

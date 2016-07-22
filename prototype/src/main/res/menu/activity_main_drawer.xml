@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="Image list">
+    <menu>
+        <item
+            android:id="@+id/nav_volley_list"
+            android:icon="@drawable/ic_menu_send"
+            android:title="Volley"/>
+        <item
+            android:id="@+id/nav_glide_list"
+            android:icon="@drawable/ic_menu_send"
+            android:title="Glide"/>
+        </menu>
+    </item>
+
+    <group>
+        <item
+            android:id="@+id/nav_send_sms"
+            android:icon="@drawable/ic_menu_share"
+            android:title="SMS test"/>
+        <item
+            android:id="@+id/nav_register_gcm"
+            android:icon="@drawable/ic_menu_share"
+            android:title="GCM register"/>
+        <item
+            android:id="@+id/nav_show_chart"
+            android:icon="@drawable/ic_menu_share"
+            android:title="Hello Chart"/>
+        <item
+            android:id="@+id/nav_show_customer"
+            android:icon="@drawable/ic_menu_send"
+            android:title="Customer Registration"/>
+        <item
+            android:id="@+id/nav_tmap"
+            android:title="Tmap API"/>
+        <item
+            android:id="@+id/nav_active_android"
+            android:title="Active Android"/>
+    </group>
+</menu>

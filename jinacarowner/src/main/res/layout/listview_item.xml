@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/listItemBackground"
+              android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/startingPointTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/common_margin_5dp"
+            android:layout_weight="1"
+            android:text="startingPointTextView"
+            android:textColor="@color/listItemCommonTextColor"
+            android:textSize="@dimen/list_item_text_size_big"/>
+
+        <TextView
+            android:id="@+id/destinationPointTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/common_margin_5dp"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:text="destinationPointTextView"
+            android:textColor="@color/listItemPointTextColor2"
+            android:textSize="@dimen/list_item_text_size_big"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/registeredTimeTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/common_margin_5dp"
+            android:layout_weight="1"
+            android:text="registeredTimeTextView"
+            android:textColor="@color/listItemCommonTextColor"
+            android:textSize="@dimen/list_item_text_size_small"
+            android:textStyle="italic|bold"/>
+
+        <TextView
+            android:id="@+id/feeTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/common_margin_5dp"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:text="feeTextView"
+            android:textColor="@color/listItemPointTextColor2"
+            android:textSize="@dimen/list_item_text_size_medium"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <TextView
+            android:id="@+id/capacityTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/common_margin_5dp"
+            android:layout_weight="0.1"
+            android:text="capacityTextView"
+            android:textColor="@color/listItemPointTextColor1"
+            android:textSize="@dimen/list_item_text_size_medium"/>
+
+        <TextView
+            android:id="@+id/carTypeTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/common_margin_5dp"
+            android:layout_weight="0.1"
+            android:text="carTypeTextView"
+            android:textColor="@color/listItemCommonTextColor"
+            android:textSize="@dimen/list_item_text_size_medium"/>
+
+        <TextView
+            android:id="@+id/goodsDetailTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/common_margin_5dp"
+            android:layout_weight="0.8"
+            android:text="goodsDetailTextView"
+            android:textColor="@color/listItemCommonTextColor"
+            android:textSize="@dimen/list_item_text_size_medium"/>
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,68 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".SecondPage.SecondActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/goMainPageButton"
+                style="@style/SmallCircleButton"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/home"
+                />
+
+            <Button
+                android:id="@+id/goVoiceOrderPageButton"
+                style="@style/SmallCircleButton"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/register_voice_order"
+                />
+
+            <Button
+                android:id="@+id/goRegisteredCarLogPageButton"
+                style="@style/SmallCircleButton"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/goods_registration_log"
+                />
+        </LinearLayout>
+
+        <include
+            android:id="@+id/starting_point_layout"
+            layout="@layout/form_starting_point_layout"/>
+
+        <include
+            android:id="@+id/destination_point_layout"
+            layout="@layout/form_destination_point_layout"/>
+
+        <include
+            android:id="@+id/others_layout"
+            layout="@layout/form_others_layout"/>
+
+        <Button
+            android:id="@+id/sendSelectedItemsToServerButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/common_margin_5dp"
+            android:text="@string/register_goods"/>
+    </LinearLayout>
+</ScrollView>
