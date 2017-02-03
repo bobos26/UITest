@@ -16,8 +16,6 @@ package com.activeandroid.query;
  * limitations under the License.
  */
 
-import com.activeandroid.Cache;
-import com.activeandroid.content.ContentProvider;
 import com.activeandroid.util.SQLiteUtils;
 
 import java.util.ArrayList;
@@ -84,14 +82,7 @@ public final class Set implements Sqlable {
 	}
 
 	public void execute() {
-		/**
-		 * FIXME fixed by kate
-		 * this fixed is why notification callback is not called when updating a table.
-		 */
-		// SQLiteUtils.execSql(toSql(), getArguments());
 		SQLiteUtils.execSql(toSql(), getArguments());
-		Cache.getContext().getContentResolver().notifyChange(ContentProvider
-				.createUri(mUpdate.getType(), null), null);
 	}
 
 	public String[] getArguments() {

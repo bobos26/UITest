@@ -33,16 +33,24 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.text.TextUtils;
 
+import com.activeandroid.util.IOUtils;
 import com.activeandroid.util.Log;
 import com.activeandroid.util.NaturalOrderComparator;
 import com.activeandroid.util.SQLiteUtils;
+import com.activeandroid.util.SqlParser;
 
 public final class DatabaseHelper extends SQLiteOpenHelper {
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PUBLIC CONSTANTS
 	//////////////////////////////////////////////////////////////////////////////////////
-	private static final String TAG = DatabaseHelper.class.getSimpleName();
+
 	public final static String MIGRATION_PATH = "migrations";
+
+	//////////////////////////////////////////////////////////////////////////////////////
+    // PRIVATE FIELDS
+    //////////////////////////////////////////////////////////////////////////////////////
+
+    private final String mSqlParser;
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
@@ -51,6 +59,7 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
 	public DatabaseHelper(Configuration configuration) {
 		super(configuration.getContext(), configuration.getDatabaseName(), null, configuration.getDatabaseVersion());
 		copyAttachedDatabase(configuration.getContext(), configuration.getDatabaseName());
+		mSqlParser = configuration.getSqlParser();
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -97,10 +106,10 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
 			final InputStream inputStream = context.getAssets().open(databaseName);
 			final OutputStream output = new FileOutputStream(dbPath);
 
-			byte[] buffer = new byte[1024];
+			byte[] buffer = new byte[8192];
 			int length;
 
-			while ((length = inputStream.read(buffer)) > 0) {
+			while ((length = inputStream.read(buffer, 0, 8192)) > 0) {
 				output.write(buffer, 0, length);
 			}
 
@@ -185,58 +194,70 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
 		}
 		catch (IOException e) {
 			Log.e("Failed to execute migrations.", e);
-			android.util.Log.e(TAG, "Failed to execute migrations."
-					+ oldVersion + "," + newVersion + " : " + e);
 		}
 
 		return migrationExecuted;
 	}
 
-    private void executeSqlScript(SQLiteDatabase db, String file) {
-        try {
-            final InputStream input = Cache.getContext().getAssets().open(MIGRATION_PATH + "/" + file);
-            final BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-            String line = null;
-            
-            while ((line = reader.readLine()) != null) {
-                line = removeSingleComment(line);
-                line = line.replace(";", "");
-                if (TextUtils.isEmpty(line)) {
-                    continue;
-                }
+	private void executeSqlScript(SQLiteDatabase db, String file) {
 
-                // 하기사항은 5.3.0 부터 다시 제거하려 하였으나,
-                // 5.0.7 부터 업데이트한 고객이 있을수도 있어서 남겨둔다.
-                // [artf152493] for V5.0.7
-                // OAI-404 14.sql 을 update 도중 LockerData db가 최초 생성되는 경우에는 alter 시 duplicate 가 발생하여
-                // SQLiteException 이 발생함. 하여 SQLiteException의 위치를 이동
-                try {
-                    db.execSQL(line);
+	    InputStream stream = null;
+
+		try {
+		    stream = Cache.getContext().getAssets().open(MIGRATION_PATH + "/" + file);
+
+		    if (Configuration.SQL_PARSER_DELIMITED.equalsIgnoreCase(mSqlParser)) {
+		        executeDelimitedSqlScript(db, stream);
+
+		    } else {
+		        executeLegacySqlScript(db, stream);
+
+		    }
+
+		} catch (IOException e) {
+			Log.e("Failed to execute " + file, e);
+
+		} finally {
+		    IOUtils.closeQuietly(stream);
+
+		}
+	}
+
+	private void executeDelimitedSqlScript(SQLiteDatabase db, InputStream stream) throws IOException {
+
+	    List<String> commands = SqlParser.parse(stream);
+
+	    for(String command : commands) {
+	        db.execSQL(command);
+	    }
+	}
+
+	private void executeLegacySqlScript(SQLiteDatabase db, InputStream stream) throws IOException {
+
+	    InputStreamReader reader = null;
+        BufferedReader buffer = null;
+
+        try {
+            reader = new InputStreamReader(stream);
+            buffer = new BufferedReader(reader);
+            String line = null;
+
+            while ((line = buffer.readLine()) != null) {
+                line = line.replace(";", "").trim();
+                if (!TextUtils.isEmpty(line)) {
+					// [TRUNK-1545] 동일 TABLE의 CREATE와 ALTER가 동시 요청시 DuplicateException이 발생
+					try {
+						db.execSQL(line);
+					} catch (SQLiteException e) {
+						e.printStackTrace();
+					}
                 }
-                catch (SQLiteException se) {
-                    Log.e("Failed to execute " + file, se);
-                }
-                // db.execSQL(line.replace(";", ""));
             }
+
+        } finally {
+            IOUtils.closeQuietly(buffer);
+            IOUtils.closeQuietly(reader);
+
         }
-        catch (IOException e) {
-            Log.e("Failed to execute " + file, e);
-            android.util.Log.e(TAG, "Failed to execute file:" + file + " : " +  e);
-        }
-    }
-    
-    private String removeSingleComment(String line) {
-        String ret = line;
-        
-        int index = line.indexOf("--");
-        if (index >= 0) {
-            try {
-                ret = line.substring(0, index);
-            } catch (IndexOutOfBoundsException iobe) {
-                iobe.printStackTrace();
-            }
-        }
-        
-        return ret;
-    }
+	}
 }

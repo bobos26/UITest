@@ -149,7 +149,7 @@ final class ModelInfo {
 
 		for (String path : paths) {
 			File file = new File(path);
-			scanForModelClasses(file, packageName, context.getClass().getClassLoader());
+			scanForModelClasses(file, packageName, context.getClassLoader());
 		}
 	}
 
@@ -173,7 +173,7 @@ final class ModelInfo {
 					return;
 				}
 
-				className = className.replace("/", ".");
+				className = className.replace(System.getProperty("file.separator"), ".");
 
 				int packageNameIndex = className.lastIndexOf(packageName);
 				if (packageNameIndex < 0) {

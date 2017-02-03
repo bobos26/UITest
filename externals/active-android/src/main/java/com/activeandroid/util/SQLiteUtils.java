@@ -27,8 +27,11 @@ import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Column.ConflictAction;
 import com.activeandroid.serializer.TypeSerializer;
 
+import java.lang.Long;
+import java.lang.String;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -106,6 +109,14 @@ public final class SQLiteUtils {
 
 		return entities;
 	}
+	  
+	public static int intQuery(final String sql, final String[] selectionArgs) {
+        final Cursor cursor = Cache.openDatabase().rawQuery(sql, selectionArgs);
+        final int number = processIntCursor(cursor);
+        cursor.close();
+
+        return number;
+	}
 
 	public static <T extends Model> T rawQuerySingle(Class<? extends Model> type, String sql, String[] selectionArgs) {
 		List<T> entities = rawQuery(type, sql, selectionArgs);
@@ -148,6 +159,10 @@ public final class SQLiteUtils {
 		final String name = tableInfo.getColumnName(field);
 		final Column column = field.getAnnotation(Column.class);
 
+        if (field.getName().equals("mId")) {
+            return;
+        }
+
 		String[] groups = column.uniqueGroups();
 		ConflictAction[] conflictActions = column.onUniqueConflicts();
 		if (groups.length != conflictActions.length)
@@ -157,7 +172,7 @@ public final class SQLiteUtils {
 			String group = groups[i];
 			ConflictAction conflictAction = conflictActions[i];
 
-			if (group.isEmpty())
+			if (TextUtils.isEmpty(group))
 				continue;
 
 			List<String> list = sUniqueGroupMap.get(group);
@@ -196,6 +211,10 @@ public final class SQLiteUtils {
 		final String name = tableInfo.getColumnName(field);
 		final Column column = field.getAnnotation(Column.class);
 
+        if (field.getName().equals("mId")) {
+            return;
+        }
+
 		if (column.index()) {
 			List<String> list = new ArrayList<String>();
 			list.add(name);
@@ -204,7 +223,7 @@ public final class SQLiteUtils {
 
 		String[] groups = column.indexGroups();
 		for (String group : groups) {
-			if (group.isEmpty())
+			if (TextUtils.isEmpty(group))
 				continue;
 
 			List<String> list = sIndexGroupMap.get(group);
@@ -263,30 +282,31 @@ public final class SQLiteUtils {
 		}
 
 		if (!TextUtils.isEmpty(definition)) {
-			if (column.length() > -1) {
-				definition.append("(");
-				definition.append(column.length());
-				definition.append(")");
-			}
 
-			if (name.equals("Id")) {
+			if (name.equals(tableInfo.getIdName())) {
 				definition.append(" PRIMARY KEY AUTOINCREMENT");
-			}
+			}else if(column!=null){
+				if (column.length() > -1) {
+					definition.append("(");
+					definition.append(column.length());
+					definition.append(")");
+				}
 
-			if (column.notNull()) {
-				definition.append(" NOT NULL ON CONFLICT ");
-				definition.append(column.onNullConflict().toString());
-			}
+				if (column.notNull()) {
+					definition.append(" NOT NULL ON CONFLICT ");
+					definition.append(column.onNullConflict().toString());
+				}
 
-			if (column.unique()) {
-				definition.append(" UNIQUE ON CONFLICT ");
-				definition.append(column.onUniqueConflict().toString());
+				if (column.unique()) {
+					definition.append(" UNIQUE ON CONFLICT ");
+					definition.append(column.onUniqueConflict().toString());
+				}
 			}
 
 			if (FOREIGN_KEYS_SUPPORTED && ReflectionUtils.isModel(type)) {
 				definition.append(" REFERENCES ");
 				definition.append(Cache.getTableInfo((Class<? extends Model>) type).getTableName());
-				definition.append("(Id)");
+				definition.append("("+tableInfo.getIdName()+")");
 				definition.append(" ON DELETE ");
 				definition.append(column.onDelete().toString().replace("_", " "));
 				definition.append(" ON UPDATE ");
@@ -302,14 +322,21 @@ public final class SQLiteUtils {
 
 	@SuppressWarnings("unchecked")
 	public static <T extends Model> List<T> processCursor(Class<? extends Model> type, Cursor cursor) {
+		TableInfo tableInfo = Cache.getTableInfo(type);
+		String idName = tableInfo.getIdName();
 		final List<T> entities = new ArrayList<T>();
 
 		try {
 			Constructor<?> entityConstructor = type.getConstructor();
 
 			if (cursor.moveToFirst()) {
+                /**
+                 * Obtain the columns ordered to fix issue #106 (https://github.com/pardom/ActiveAndroid/issues/106)
+                 * when the cursor have multiple columns with same name obtained from join tables.
+                 */
+                List<String> columnsOrdered = new ArrayList<String>(Arrays.asList(cursor.getColumnNames()));
 				do {
-					Model entity = Cache.getEntity(type, cursor.getLong(cursor.getColumnIndex("Id")));
+					Model entity = Cache.getEntity(type, cursor.getLong(columnsOrdered.indexOf(idName)));
 					if (entity == null) {
 						entity = (T) entityConstructor.newInstance();
 					}
@@ -336,5 +363,44 @@ public final class SQLiteUtils {
 		}
 
 		return entities;
+	}
+
+	private static int processIntCursor(final Cursor cursor) {
+        if (cursor.moveToFirst()) {
+            return cursor.getInt(0);
+	    }
+        return 0;
+    }
+
+	public static List<String> lexSqlScript(String sqlScript) {
+		ArrayList<String> sl = new ArrayList<String>();
+		boolean inString = false, quoteNext = false;
+		StringBuilder b = new StringBuilder(100);
+
+		for (int i = 0; i < sqlScript.length(); i++) {
+			char c = sqlScript.charAt(i);
+
+			if (c == ';' && !inString && !quoteNext) {
+				sl.add(b.toString());
+				b = new StringBuilder(100);
+				inString = false;
+				quoteNext = false;
+				continue;
+			}
+
+			if (c == '\'' && !quoteNext) {
+				inString = !inString;
+			}
+
+			quoteNext = c == '\\' && !quoteNext;
+
+			b.append(c);
+		}
+
+		if (b.length() > 0) {
+			sl.add(b.toString());
+		}
+
+		return sl;
 	}
 }

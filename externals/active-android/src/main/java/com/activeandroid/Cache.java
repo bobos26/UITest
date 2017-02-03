@@ -16,11 +16,6 @@ package com.activeandroid;
  * limitations under the License.
  */
 
-import java.io.File;
-import java.io.IOException;
-import java.io.RandomAccessFile;
-import java.nio.channels.FileChannel;
-import java.nio.channels.FileLock;
 import java.util.Collection;
 
 import android.content.Context;
@@ -48,14 +43,8 @@ public final class Cache {
 
 	private static LruCache<String, Model> sEntities;
 
-    // + copark
-	// Adapt FileLock to prevent access multi process
-    // http://creport.skplanet.co.kr/crash/usr/stat/71/detail/2542510
-    private static final String LOCK_FILE = "LOCK";
-    //private static boolean sIsInitialized = false;
-	private static volatile boolean sIsInitialized = false;
-	// - copark
-	
+	private static boolean sIsInitialized = false;
+
 	//////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -68,26 +57,12 @@ public final class Cache {
 	//////////////////////////////////////////////////////////////////////////////////////
 
 	public static synchronized void initialize(Configuration configuration) {
-	    if (sIsInitialized) {
+		if (sIsInitialized) {
 			Log.v("ActiveAndroid already initialized.");
 			return;
 		}
 
 		sContext = configuration.getContext();
-
-		// + lock
-		File file = null;
-		FileChannel channel = null;
-		FileLock lock = null;
-
-		try {
-		    file = new File(sContext.getCacheDir(), LOCK_FILE);
-		    channel = new RandomAccessFile(file, "rw").getChannel();
-		    lock = channel.lock();
-		} catch (Exception e) {
-		}
-		// - lock
-    		
 		sModelInfo = new ModelInfo(configuration);
 		sDatabaseHelper = new DatabaseHelper(configuration);
 
@@ -102,15 +77,6 @@ public final class Cache {
 		sIsInitialized = true;
 
 		Log.v("ActiveAndroid initialized successfully.");
-
-        // + unlock
-	    if (lock != null) {
-	        try { lock.release(); } catch (IOException ioe) {}
-	    }
-	    if (channel != null) {
-	        try { channel.close(); } catch (IOException ioe) {}
-	    }
-        // - unlock
 	}
 
 	public static synchronized void clear() {
@@ -131,6 +97,10 @@ public final class Cache {
 	}
 
 	// Database access
+	
+	public static boolean isInitialized() {
+		return sIsInitialized;
+	}
 
 	public static synchronized SQLiteDatabase openDatabase() {
 		return sDatabaseHelper.getWritableDatabase();
