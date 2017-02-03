@@ -1,4 +1,4 @@
-include ':app', ':debug', ':androidsample',
+include ':app', ':androidsample', ':rxandroid',
         ':RecyclerView',
         ':externals:volley',
         ':externals:tmap',
@@ -13,3 +13,8 @@ include ':app', ':debug', ':androidsample',
         ':prototype',
         ':jinacarowner',
         ':hideOnScrollExample'
+include ':standOutLibrary'
+include ':standOut'
+include ':standOutExample'
+include ':floatingFolders'
+include ':photoIntentActivity'
