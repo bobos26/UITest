@@ -1,52 +1,40 @@
 package com.skplanet.trunk.llog;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
+import android.support.v4.widget.CursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import com.activeandroid.content.ContentProvider;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link LogFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link LogFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class LogFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    public static final String TAG = "LogFragment";
     private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
-    private String mParam2;
-
     private OnFragmentInteractionListener mListener;
+    private ListView mListView;
+    private MyCursorAdapter mAdapter;
 
     public LogFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment LogFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static LogFragment newInstance(String param1, String param2) {
+    public static LogFragment newInstance(String param1) {
         LogFragment fragment = new LogFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -56,7 +44,6 @@ public class LogFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
@@ -64,14 +51,18 @@ public class LogFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_log, container, false);
+        View view = inflater.inflate(R.layout.fragment_log, container, false);
+
+        mAdapter = new MyCursorAdapter(getContext(), null);
+        mListView = (ListView) view.findViewById(R.id.listView);
+        mListView.setAdapter(mAdapter);
+        getLoaderManager().initLoader(0, new Bundle(), mLoaderCallback);
+
+        return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
+    public void clearList() {
+        LogInfo.deleteAll();
     }
 
     @Override
@@ -91,18 +82,46 @@ public class LogFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
+    private LoaderManager.LoaderCallbacks<Cursor> mLoaderCallback = new LoaderManager.LoaderCallbacks<Cursor>() {
+        @Override
+        public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+            return LogInfo.getCursorLoader(getContext());
+        }
+
+        @Override
+        public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+            mAdapter.swapCursor(data);
+        }
+
+        @Override
+        public void onLoaderReset(Loader<Cursor> loader) {
+            mAdapter.swapCursor(null);
+        }
+    };
+
+    public class MyCursorAdapter extends CursorAdapter {
+
+        public MyCursorAdapter(Context context, Cursor c) {
+            super(context, c, 0);
+        }
+
+        @Override
+        public View newView(Context context, Cursor cursor, ViewGroup parent) {
+            return LayoutInflater.from(context).inflate(android.R.layout.simple_list_item_2, parent, false);
+        }
+
+        @Override
+        public void bindView(View view, Context context, Cursor cursor) {
+            LogInfo logInfo = LogInfo.fromCursor(cursor);
+
+            TextView tvInsertedDate = (TextView) view.findViewById(android.R.id.text1);
+            TextView tvLog = (TextView) view.findViewById(android.R.id.text2);
+            tvInsertedDate.setText(logInfo.insertedDate);
+            tvLog.setText(logInfo.log);
+        }
+    }
+
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 }

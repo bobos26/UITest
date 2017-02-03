@@ -23,6 +23,10 @@
             android:name=".MainReceiver"
             android:enabled="true"
             android:exported="true">
+            <intent-filter>
+                <action android:name="com.skplanet.trunk.llog.action.LLOG"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
         </receiver>
 
         <!-- Active Android DB -->
