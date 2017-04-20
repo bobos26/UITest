@@ -101,6 +101,11 @@ public class LogFragment extends Fragment {
 
     public class MyCursorAdapter extends CursorAdapter {
 
+        private class ViewHolder {
+            TextView tvInsertedDate;
+            TextView tvLog;
+        }
+
         public MyCursorAdapter(Context context, Cursor c) {
             super(context, c, 0);
         }
@@ -114,10 +119,17 @@ public class LogFragment extends Fragment {
         public void bindView(View view, Context context, Cursor cursor) {
             LogInfo logInfo = LogInfo.fromCursor(cursor);
 
-            TextView tvInsertedDate = (TextView) view.findViewById(android.R.id.text1);
-            TextView tvLog = (TextView) view.findViewById(android.R.id.text2);
-            tvInsertedDate.setText(logInfo.insertedDate);
-            tvLog.setText(logInfo.log);
+            ViewHolder viewHolder;
+            if (view.getTag() == null) {
+                viewHolder = new ViewHolder();
+                viewHolder.tvInsertedDate = (TextView) view.findViewById(android.R.id.text1);
+                viewHolder.tvLog = (TextView) view.findViewById(android.R.id.text2);
+                view.setTag(viewHolder);
+            } else {
+                viewHolder = (ViewHolder) view.getTag();
+            }
+            viewHolder.tvInsertedDate.setText(logInfo.insertedDate);
+            viewHolder.tvLog.setText(logInfo.log);
         }
     }
 
